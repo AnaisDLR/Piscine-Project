@@ -81,8 +81,40 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 <html>
 
 <head>
-  <title>Page admin</title>
-  <meta charset="utf-8">
+  <title>Admin</title>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <!-- Icone onglet -->
+  <link rel="shortcut icon" href="img/ecein.png" type="image/x-icon">
+  <!-- Boostrap -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css">
+  <script src="https://cdn.jsdelivr.net/npm/jquery@3.6.4/dist/jquery.slim.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"></script>
+
+  <link rel="stylesheet" href="accueil.css">
+
+  <style>
+    html,
+    body {
+      margin: 0;
+      height: 100%;
+      width: 100%;
+    }
+
+    td {
+      padding: .3125rem;
+    }
+
+    input[type=text],
+    input[type=email],
+    input[type=password] {
+      height: 100%;
+      width: 100%;
+    }
+  </style>
   <script type="text/javascript">
     function suppr_util(button) {
       util = button.parentElement.parentElement;
@@ -102,72 +134,101 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 </head>
 
 <body>
-  <div id="container">
-    <h1>Admin</h1>
-    <h2>Nouvel auteur</h2>
-    <form action="" method="post" enctype="multipart/form-data">
-      <table border="1">
-        <tr>
-          <td>Pseudo* :</td>
-          <td><input type="text" name="Pseudo" required></td>
-        </tr>
-        <tr>
-          <td>Nom* :</td>
-          <td><input type="text" name="Nom" required></td>
-        </tr>
-        <tr>
-          <td>Email* :</td>
-          <td><input type="email" name="Email" required></td>
-        </tr>
-        <tr>
-          <td>MDP* :</td>
-          <td><input type="password" name="MDP" required></td>
-        </tr>
-        <tr>
-          <td>type* :</td>
-          <td><input type="radio" name="Admin" value="0" checked required>Auteur<br>
-            <input type="radio" name="Admin" value="1" required>Admin
-          </td>
-        </tr>
-        <tr>
-          <td>Photo :</td>
-          <td><input type="file" name="photo" accept="image/png, image/jpeg"></td>
-        </tr>
+  <div class="navbar navbar-expand-sm bg-dark" style="height: 12%">
+    <a class="navbar-brand"><img src="img/ecein.png" width=20% height=20%></a>
+    <h1 style="color:white">Administration / gestion des utilisateurs</h1>
+  </div>
+  <div class="row" align="center" style="margin:0; height: 88%;">
+    <div class="col-sm-4" style=" height:max-content;">
+      <br>
+      <div class="card">
+        <h2 class="card-header">Nouvel auteur</h2>
+        <div id="card-body" style="padding:.3125rem">
+          <form action="" method="post" enctype="multipart/form-data">
+            <table border="1" width=100%>
+              <tr>
+                <td>Pseudo* :</td>
+                <td><input type="text" name="Pseudo" required></td>
+              </tr>
+              <tr>
+                <td>Nom* :</td>
+                <td><input type="text" name="Nom" required></td>
+              </tr>
+              <tr>
+                <td>Email* :</td>
+                <td><input type="email" name="Email" required></td>
+              </tr>
+              <tr>
+                <td>MDP* :</td>
+                <td><input type="password" name="MDP" required></td>
+              </tr>
+              <tr>
+                <td>type* :</td>
+                <td><input type="radio" name="Admin" value="0" checked required>Auteur<br>
+                  <input type="radio" name="Admin" value="1" required>Admin
+                </td>
+              </tr>
+              <tr>
+                <td>Photo :</td>
+                <td><input type="file" name="photo" accept="image/png, image/jpeg"></td>
+              </tr>
 
-      </table>
-      <input type="submit" value="Créer">
-    </form>
+            </table>
+            <br>
+            <input type="submit" value="Créer" class="btn btn-primary btn-block" style="">
+          </form>
+        </div>
+      </div>
+    </div>
+    <div class="col-sm-8" style=" height:100%; overflow-x: hidden; overflow-y: scroll;">
+      <br>
+      <div class="card">
+        <h2 class="card-header">Utilisateurs</h2>
+        <div id="card-body" style="padding:.3125rem">
+          <!-- Tableau des joueurs à afficher ici -->
+          <?php
+          $sql = "SELECT * FROM utilisateur WHERE admin=0";
+          $result = mysqli_query($db_handle, $sql);
+          echo "<table border=\"1\" style='width:100%'>";
+          echo "<thead style='position: sticky;top: 0px;background: #343a40 !important;color: white;text-align: center;'>";
+          echo "<tr>";
+          echo "<th>" . "PDP" . "</th>";
+          echo "<th>" . "Pseudo" . "</th>";
+          echo "<th>" . "Nom" . "</th>";
+          echo "<th>" . "MDP" . "</th>";
+          echo "<th>" . "Email" . "</th>";
+          echo "<th>" . "" . "</th>";
+          echo "</tr>";
+          echo "</thead>";
 
+          echo "<tbody>";
+          while ($data = mysqli_fetch_assoc($result)) {
+            echo "<tr id='" . $data['ID'] . "'>";
+            echo "<td style='width: 80px'>" . "<img src='" . $data['PDP'] . "' height='60' width='80'>" . "</td>";
+            echo "<td>" . $data['Pseudo'] . "</td>";
+            echo "<td>" . $data['Nom'] . "</td>";
+            echo "<td>" . $data['MDP'] . "</td>";
+            echo "<td>" . $data['Email'] . "</td>";
 
-
-    <h2>Utilisateurs</h2>
-    <div id="content-container">
-      <!-- Tableau des joueurs à afficher ici -->
-      <?php
-      $sql = "SELECT * FROM utilisateur WHERE admin=0";
-      $result = mysqli_query($db_handle, $sql);
-      echo "<table border=\"1\">";
-      echo "<tr>";
-      echo "<th>" . "PDP" . "</th>";
-      echo "<th>" . "Pseudo" . "</th>";
-      echo "<th>" . "Nom" . "</th>";
-      echo "<th>" . "MDP" . "</th>";
-      echo "<th>" . "Email" . "</th>";
-      echo "<th>" . "" . "</th>";
-      echo "</tr>";
-
-      while ($data = mysqli_fetch_assoc($result)) {
-        echo "<tr id='" . $data['ID'] . "'>";
-        echo "<td>" . "<img src='" . $data['PDP'] . "' height='60' width='80'>" . "</td>";
-        echo "<td>" . $data['Pseudo'] . "</td>";
-        echo "<td>" . $data['Nom'] . "</td>";
-        echo "<td>" . $data['MDP'] . "</td>";
-        echo "<td>" . $data['Email'] . "</td>";
-        echo "<td><button type='button' onclick='suppr_util(this)'>Supprimer</td>";
-        echo "</tr>";
-      }
-      echo "</table>";
-      ?>
+            //affiche le bouton supprimer si inactif depuis 5ans ou plus
+            $date1 = date_create($data["Last_log"]);
+            $date2 = date_create(date("Y-m-d H:i:s", time()));
+            $diff = date_diff($date1, $date2);
+            echo "<td>";
+            if ($diff->format("%y") == 0) {
+              echo "en ligne il y a moin d'une année";
+            } else {
+              echo "hors ligne depuis :" . $diff->format("%y ans") . "<br>";
+              if ($diff->format("%y") >= 5)
+                echo "<button type='button' onclick='suppr_util(this)'>Supprimer</button>";
+            }
+            echo "</td></tr>";
+          }
+          echo "</tbody>";
+          echo "</table>";
+          ?>
+        </div>
+      </div>
     </div>
   </div>
 </body>
