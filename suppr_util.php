@@ -10,7 +10,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'GET') {
     $result = mysqli_query($db_handle, $sql);
     $data = mysqli_fetch_assoc($result);
 
-    unlink($data["PDP"]);
+    if ($data["PDP"] != "img/profile-picture-default.png")
+      unlink($data["PDP"]);
 
     $sql = "DELETE FROM utilisateur WHERE ID=$id";
     $result = mysqli_query($db_handle, $sql);
