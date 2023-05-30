@@ -1,0 +1,8 @@
+h3,h4,h5,h6 {
+    text-decoration: underline;
+}
+
+body {
+    /*font-family: monospace;*/
+    background: #256A6A;
+}
