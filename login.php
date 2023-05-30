@@ -34,16 +34,11 @@ if (isset($_POST["login"]) && !empty($_POST["login"]) && isset($_POST["password"
 
 
       if ($user["Admin"] == 1) {                    //Si Admin
-        echo "t'es Admin";
+        echo "<script>document.location.replace('admin.php');</script>";
       } else {
-        echo "t'es pas Admin";
-        //<script>document.location.replace('addpdf.php');</script>
-        //<script>document.location.replace('readpdf.php');</script>
+        echo "<script>document.location.replace('accueil.html');</script>";
       }
     }
-  }
-  if (!$userfound) {                                //login ou mot de passe est incorrecte
-    echo "<span style='color: red;'>login ou mot de passe est incorrecte</span>";
   }
 
 } else if (isset($_SESSION["userEmail"]) || !empty($_SESSION["userEmail"])) {   //supprime si pas trouvé
@@ -68,7 +63,6 @@ if (isset($_POST["login"]) && !empty($_POST["login"]) && isset($_POST["password"
 </head>
 
 <body>
-  <h1>Connexion</h1>
   <form method="post">
 
     <?php
@@ -78,16 +72,52 @@ if (isset($_POST["login"]) && !empty($_POST["login"]) && isset($_POST["password"
     }
     ?>
 
+    <!-- Boostrap -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.6.4/dist/jquery.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"></script>
 
-    <label for="login">Adresse Email : </label>
-    <input type="text" name="login" placeholder="email" value="<?= $login ?>" required><br>
+    <div class="row">
 
-    <label for="password">Mot de Passe : </label>
-    <input type="password" name="password" placeholder="password" required><br>
+    <div class="col-sm-6 p-0">
+      <img src="img/connection.jpg" style="width: 100%; height: 100%">
+    </div>
 
-    <a href="register.php">Créer un compte</a><br>
+    <div class="col-sm-6 p-0">
+      <div class="container p-5">
+        <h3 class="font-weight-bold">Connection</h3><br><br>
 
-    <button type="submit">Se connecter</button>
+        <div class="form-group">
+          <label for="login">Adresse Email</label>
+          <input type="text" name="login" class="form-control" placeholder="Entrer Email" value="<?= $login ?>" required><br>
+        </div>
+
+        <div class="form-group">
+          <label for="password">Mot de Passe</label>
+          <input type="password" name="password" class="form-control" placeholder="Mot de passe" required><br>
+        </div>
+
+        <?php
+          if (isset($userfound)) {
+          if (!$userfound) {                      //login ou mot de passe est incorrecte
+            echo "<span class='text-danger font-weight-bold'>Login ou mot de passe incorrecte.</span>";
+            echo "<br><br>";
+          }
+          }
+        ?>
+
+        <div class="form-group">
+          <a href="register.php">Créer un compte</a><br>
+        </div>
+
+        <div class="form-group">
+          <button type="submit" class="btn btn-primary">Se connecter</button>
+        </div>
+      </div>
+
+    </div>
+    </div>
   </form>
 </body>
 

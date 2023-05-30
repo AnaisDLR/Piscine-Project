@@ -24,16 +24,13 @@ if ($Pseudo != '' and $Nom != '' and $Email != '' and $MDP != '') {
 	if ($db_found) {
 		//code MySQL. $sql est basé sur le choix de l’utilisateur
 		$sql = "INSERT INTO utilisateur (Pseudo, Nom, Email, MDP) VALUES ('$Pseudo', '$Nom', '$Email', '$MDP');";
+    $result = mysqli_query($db_handle, $sql);
 
-        $result = mysqli_query($db_handle, $sql);
-
-        $sql = "SELECT * FROM societedhonneur";
-        $result = mysqli_query($db_handle, $sql);
-
-    }
-    else {
-        echo "<br>Database not found";
-    }
+    echo "<script>document.location.replace('accueil.html');</script>";
+  }
+  else {
+    echo "<br>Database not found";
+  }
 
 //fermer la connexion
 mysqli_close($db_handle);
@@ -58,25 +55,64 @@ mysqli_close($db_handle);
 </head>
 
 <body>
-  <h1>Inscription</h1>
   <form method="post">
 
-    <label for="Pseudo">Pseudo : </label>
-    <input type="text" name="Pseudo" placeholder="Pseudo" required><br>
+    <?php
+    $login = "";
+    if (isset($_POST["login"])) {
+      $login = $_POST['login'];
+    }
+    ?>
 
-    <label for="Nom">Nom : </label>
-    <input type="text" name="Nom" placeholder="Nom" required><br>
+    <!-- Boostrap -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.6.4/dist/jquery.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"></script>
 
-    <label for="Email">Adresse Email : </label>
-    <input type="text" name="Email" placeholder="Email" required><br>
+    <div class="row">
 
-    <label for="password">Mot de Passe : </label>
-    <input type="password" name="password" placeholder="password" required><br>
+    <div class="col-sm-6 p-0">
+      <img src="img/connection.jpg" style="width: 100%; height: 100%">
+    </div>
 
-    <a href="login.php">J'ai déjà un compte</a><br>
+    <div class="col-sm-6 p-0">
+      <div class="container p-5">
+        <h3 class="font-weight-bold">Inscription</h3><br>
 
-    <button type="submit">S'inscrire</button>
+        <div class="form-group">
+          <label for="login">Pseudo</label>
+          <input type="text" name="Pseudo" class="form-control" placeholder="Entrer Pseudo" value="<?= $login ?>" required><br>
+        </div>
+
+        <div class="form-group">
+          <label for="login">Nom</label>
+          <input type="text" name="Nom" class="form-control" placeholder="Entrer Nom" value="<?= $login ?>" required><br>
+        </div>
+
+        <div class="form-group">
+          <label for="login">Adresse Email</label>
+          <input type="text" name="Email" class="form-control" placeholder="Entrer Email" value="<?= $login ?>" required><br>
+        </div>
+
+        <div class="form-group">
+          <label for="password">Mot de Passe</label>
+          <input type="password" name="password" class="form-control" placeholder="Mot de passe" required><br>
+        </div>
+
+        <div class="form-group">
+          <a href="login.php">J'ai déjà un compte</a><br>
+        </div>
+
+        <div class="form-group">
+          <button type="submit" class="btn btn-primary">S'inscrire</button>
+        </div>
+      </div>
+
+    </div>
+    </div>
   </form>
 </body>
 
 </html>
+
