@@ -15,6 +15,10 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     echo "Erreur Email<br>";
     $correct = 0;
   }
+  if (!isset($_POST["Admin"])) {
+    echo "Erreur Admin<br>";
+    $correct = 0;
+  }
   if (!isset($_POST["MDP"]) || empty($_POST["MDP"])) {
     echo "Erreur MDP<br>";
     $correct = 0;
@@ -24,6 +28,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $pseudo = $_POST["Pseudo"];
     $nom = $_POST["Nom"];
     $email = $_POST["Email"];
+    $admin = $_POST["Admin"];
     $mdp = $_POST["MDP"];
 
     if (isset($_FILES["photo"]) && $_FILES["photo"]["error"] === 0) {
@@ -56,12 +61,12 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
       chmod($newfilename, 0644);
 
-      $sql = "INSERT INTO utilisateur (Pseudo, Nom, Email, MDP, Admin, PDP)
-          VALUES ('$pseudo', '$nom', '$email', '$mdp', 0, 'img/$newname.$extension');";
+      $PDP = "img/$newname.$extension";
     } else {
-      $sql = "INSERT INTO utilisateur (Pseudo, Nom, Email, MDP, Admin)
-          VALUES ('$pseudo', '$nom', '$email', '$mdp', 0);";
+      $PDP = "img/profile-picture-default.png";
     }
+    $sql = "INSERT INTO utilisateur (Pseudo, Nom, Email, MDP, Admin, PDP)
+        VALUES ('$pseudo', '$nom', '$email', '$mdp', $admin, '$PDP');";
     $result = mysqli_query($db_handle, $sql);
 
     //on recharge la page pour bloquer la double soumission du formulaire
@@ -119,6 +124,12 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
           <td><input type="password" name="MDP" required></td>
         </tr>
         <tr>
+          <td>type* :</td>
+          <td><input type="radio" name="Admin" value="0" checked required>Auteur<br>
+            <input type="radio" name="Admin" value="1" required>Admin
+          </td>
+        </tr>
+        <tr>
           <td>Photo :</td>
           <td><input type="file" name="photo" accept="image/png, image/jpeg"></td>
         </tr>
@@ -147,10 +158,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
       while ($data = mysqli_fetch_assoc($result)) {
         echo "<tr id='" . $data['ID'] . "'>";
-        if ($data['PDP'])
-          echo "<td>" . "<img src='" . $data['PDP'] . "' height='60' width='80'>" . "</td>";
-        else
-          echo "<td>" . "<img src='" . 'img/profile-picture-default.png' . "' height='60' width='80'>" . "</td>";
+        echo "<td>" . "<img src='" . $data['PDP'] . "' height='60' width='80'>" . "</td>";
         echo "<td>" . $data['Pseudo'] . "</td>";
         echo "<td>" . $data['Nom'] . "</td>";
         echo "<td>" . $data['MDP'] . "</td>";
