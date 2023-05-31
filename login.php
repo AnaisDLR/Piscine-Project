@@ -36,7 +36,7 @@ if (isset($_POST["login"]) && !empty($_POST["login"]) && isset($_POST["password"
       if ($user["Admin"] == 1) { //Si Admin
         echo "<script>document.location.replace('admin.php');</script>";
       } else {
-        echo "<script>document.location.replace('accueil.html');</script>";
+        echo "<script>document.location.replace('accueil.php');</script>";
       }
     }
   }

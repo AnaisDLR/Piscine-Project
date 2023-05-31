@@ -1,9 +1,10 @@
 <?php
 include("BDDconnexion.php");
 
+//recupération et vérification des donné de l'utilisateur
 session_start();
 if (!isset($_SESSION["userID"]) || empty($_SESSION["userID"]) || $_SESSION["userAdmin"] != 1) {
-  echo "<script>document.location.replace('login.php');</script>";
+  echo "<script>alert('Connecte toi avant');document.location.replace('login.php');</script>";
   die();
 }
 $userID = $_SESSION["userID"];

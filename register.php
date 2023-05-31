@@ -93,7 +93,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
             VALUES ('$Pseudo', '$Nom', '$Email', '$MDP', '$PDP', '$ban');";
       $result = mysqli_query($db_handle, $sql);
 
-      echo "<script>document.location.replace('accueil.html');</script>";
+      echo "<script>document.location.replace('accueil.php');</script>";
     } else {
       echo "<br>Database not found";
     }
