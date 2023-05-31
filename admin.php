@@ -1,6 +1,16 @@
 <?php
 include("BDDconnexion.php");
 
+/*session_start();
+if (!isset($_SESSION["userID"]) || empty($_SESSION["userID"]) || $_SESSION["useradmin"] != 1) {
+  echo "<script>document.location.replace('index.php');</script>";
+  die();
+} else {
+  $userID = $_SESSION["userID"];
+}*/
+$userID = 3;
+
+
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
   $correct = 1;
   if (!isset($_POST["Pseudo"]) || empty($_POST["Pseudo"])) {
@@ -65,8 +75,43 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     } else {
       $PDP = "img/profile-picture-default.png";
     }
-    $sql = "INSERT INTO utilisateur (Pseudo, Nom, Email, MDP, Admin, PDP)
-        VALUES ('$pseudo', '$nom', '$email', '$mdp', $admin, '$PDP');";
+
+    if (isset($_FILES["banniere"]) && $_FILES["banniere"]["error"] === 0) {
+      // extension autoriser
+      $allowed = [
+        "png" => "image/png",
+        "jpg" => "image/jpeg",
+        "jpeg" => "image/jpeg"
+      ];
+
+      $filename = $_FILES["banniere"]["name"];
+      $filetype = $_FILES["banniere"]["type"];
+      $filesize = $_FILES["banniere"]["size"];
+      $tmp_name = $_FILES["banniere"]["tmp_name"];
+
+      $extension = strtolower(pathinfo($filename, PATHINFO_EXTENSION));
+
+      if (!array_key_exists($extension, $allowed) || !in_array($filetype, $allowed)) {
+        die("Erreur: format de fichier incorrect");
+      }
+
+
+      // on génère un nom unique
+      $newname = md5(uniqid());
+      $newfilename = __DIR__ . "/img/$newname.$extension";
+
+      if (!move_uploaded_file($tmp_name, $newfilename)) {
+        die("Erreur: téléchargement échoué");
+      }
+
+      chmod($newfilename, 0644);
+
+      $ban = "img/$newname.$extension";
+    } else {
+      $ban = "img/banniere-picture-default.png";
+    }
+    $sql = "INSERT INTO utilisateur (Pseudo, Nom, Email, MDP, Admin, PDP, Banniere)
+        VALUES ('$pseudo', '$nom', '$email', '$mdp', $admin, '$PDP', '$ban');";
     $result = mysqli_query($db_handle, $sql);
 
     //on recharge la page pour bloquer la double soumission du formulaire
@@ -172,6 +217,10 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 <td>Photo :</td>
                 <td><input type="file" name="photo" accept="image/png, image/jpeg"></td>
               </tr>
+              <tr>
+                <td>Bannière :</td>
+                <td><input type="file" name="banniere" accept="image/png, image/jpeg"></td>
+              </tr>
 
             </table>
             <br>
@@ -187,7 +236,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         <div id="card-body" style="padding:.3125rem">
           <!-- Tableau des joueurs à afficher ici -->
           <?php
-          $sql = "SELECT * FROM utilisateur WHERE admin=0";
+          $sql = "SELECT * FROM utilisateur WHERE ID!=$userID";
           $result = mysqli_query($db_handle, $sql);
           echo "<table border=\"1\" style='width:100%'>";
           echo "<thead style='position: sticky;top: 0px;background: #343a40 !important;color: white;text-align: center;'>";
@@ -197,6 +246,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
           echo "<th>" . "Nom" . "</th>";
           echo "<th>" . "MDP" . "</th>";
           echo "<th>" . "Email" . "</th>";
+          echo "<th>" . "Inactivité" . "</th>";
           echo "<th>" . "" . "</th>";
           echo "</tr>";
           echo "</thead>";
@@ -205,7 +255,10 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
           while ($data = mysqli_fetch_assoc($result)) {
             echo "<tr id='" . $data['ID'] . "'>";
             echo "<td style='width: 80px'>" . "<img src='" . $data['PDP'] . "' height='60' width='80'>" . "</td>";
-            echo "<td>" . $data['Pseudo'] . "</td>";
+            if ($data["Admin"])
+              echo "<td><span style='text-decoration: underline; font-weight: bold'>" . $data['Pseudo'] . "</span><br>(Admin)</td>";
+            else
+              echo "<td>" . $data['Pseudo'] . "</td>";
             echo "<td>" . $data['Nom'] . "</td>";
             echo "<td>" . $data['MDP'] . "</td>";
             echo "<td>" . $data['Email'] . "</td>";
@@ -216,12 +269,14 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             $diff = date_diff($date1, $date2);
             echo "<td>";
             if ($diff->format("%y") == 0) {
-              echo "en ligne il y a moin d'une année";
+              echo "en ligne il y a moins d'une année";
             } else {
-              echo "hors ligne depuis :" . $diff->format("%y ans") . "<br>";
               if ($diff->format("%y") >= 5)
-                echo "<button type='button' onclick='suppr_util(this)'>Supprimer</button>";
+                echo "<span style='color:red'>hors ligne depuis : " . $diff->format("%y ans") . "</span><br>";
+              else
+                echo "hors ligne depuis : " . $diff->format("%y ans") . "<br>";
             }
+            echo "</td><td><button type='button' onclick='suppr_util(this)'>Supprimer</button>";
             echo "</td></tr>";
           }
           echo "</tbody>";
