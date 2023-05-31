@@ -1,5 +1,6 @@
-function init() {
+function init(user) {
   actconv = null;
+  userID = user;
 }
 
 function changeConv(conv) {
@@ -21,7 +22,7 @@ function changeConv(conv) {
     }
   };
 
-  xhttp.open("GET", "charger_message.php?idd=" + conv, true);
+  xhttp.open("GET", "charger_message.php?idconv=" + conv + "&id=" + userID, true);
   xhttp.send();
 
 }

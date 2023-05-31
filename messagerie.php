@@ -55,10 +55,32 @@ $selfdata = mysqli_fetch_assoc($result);
     .conv_act {
       background-color: #cacaca;
     }
+
+    .message {
+      margin: .3125rem;
+      padding: .3125rem;
+      width: max-content;
+      text-align: left;
+      background-color: #bbb;
+      border: 1px solid black;
+      border-radius: 5px;
+    }
+
+    .message>.nom {
+      font-weight: bold;
+      text-decoration: underline;
+      font-size: 1.3em;
+      color: #256a6a;
+    }
+
+    .message>.corp {
+      font-size: 1.2em;
+      color: black;
+    }
   </style>
 </head>
 
-<body onload="init()">
+<body onload="init(<?= $userID ?>)">
   <!-- Barre navigation -->
   <nav class="navbar navbar-expand-sm bg-dark justify-content-center">
     <!-- .bg-primary, .bg-success, .bg-info, .bg-warning, .bg-danger, .bg-secondary, .bg-dark and .bg-light -->
@@ -101,11 +123,11 @@ $selfdata = mysqli_fetch_assoc($result);
       </div>
     </div>
     <div class="col-sm-9" style=" height:100%;">
-      <div class="card" style=" height:100%; overflow-x: hidden; overflow-y: scroll;">
+      <div class="card" style=" height:100%;">
         <div id="conv_header" class="card-header" style="text-align: left">
 
         </div>
-        <div id="conv_body" class="card-body">
+        <div id="conv_body" class="card-body" style=" height:100%; overflow-x: hidden; overflow-y: auto;">
 
         </div>
         <div id="conv_footer" class="card-footer" style="text-align:left;">
@@ -116,7 +138,7 @@ $selfdata = mysqli_fetch_assoc($result);
             <input type="button" value="Envoyer">
           </div>
 
-          <input type="file" name="photo" accept="image/png, image/jpeg" style="display: none; margin: 10px">
+          <input type=" file" name="photo" accept="image/png, image/jpeg" style="display: none; margin: 10px">
         </div>
       </div>
     </div>
