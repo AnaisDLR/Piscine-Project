@@ -1,5 +1,10 @@
 <?php
 include("BDDconnexion.php");
+/* logique: 
+    login -> avoir l'ID de l'user -> afficher le nom, l'emploi et la photo des amis 
+    clic sur la photo -> page principale de l'ami
+     -> liste des amis de mon ami -> clic sur la photo -> demande d'ami 
+*/
 
 //il faut remplacer par: login et avoir l'ID de l'utilisateur 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
