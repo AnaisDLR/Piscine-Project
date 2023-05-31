@@ -1,18 +1,21 @@
 <?php
 include("BDDconnexion.php");
 
+//recupération et vérification des donné de l'utilisateur
 /*session_start();
-if (!isset($_SESSION["userID"]) || empty($_SESSION["userID"]) || $_SESSION["useradmin"] != 1) {
-  echo "<script>document.location.replace('index.php');</script>";
+if (!isset($_SESSION["userID"]) || empty($_SESSION["userID"])) {
+  echo "<script>alert('Connecte toi avant');document.location.replace('login.php');</script>";
   die();
-} else {
-  $userID = $_SESSION["userID"];
-}*/
-$userID = 3;
+}
+$userID = $_SESSION["userID"];*/
+$userID = 1;
 
-
-
+$sql = "SELECT * FROM utilisateur WHERE ID=$userID";
+$result = mysqli_query($db_handle, $sql);
+$selfdata = mysqli_fetch_assoc($result);
 ?>
+
+
 
 
 
@@ -35,6 +38,8 @@ $userID = 3;
 
   <link rel="stylesheet" href="accueil.css">
 
+  <script src="messagerie.js"></script>
+
   <style>
     html,
     body {
@@ -46,10 +51,14 @@ $userID = 3;
     td {
       padding: .3125rem;
     }
+
+    .conv_act {
+      background-color: #cacaca;
+    }
   </style>
 </head>
 
-<body>
+<body onload="init()">
   <!-- Barre navigation -->
   <nav class="navbar navbar-expand-sm bg-dark justify-content-center">
     <!-- .bg-primary, .bg-success, .bg-info, .bg-warning, .bg-danger, .bg-secondary, .bg-dark and .bg-light -->
@@ -76,14 +85,14 @@ $userID = 3;
         <div id="card-body" style="padding:.3125rem; height:100%; overflow-x: hidden; overflow-y: auto;">
           <!-- Tableau des discussion à afficher ici -->
           <?php
-          $sql = "SELECT * FROM utilisateur WHERE ID!=$userID";
+          $sql = "SELECT * FROM discuter, conversation WHERE ID_user=$userID AND ID_conv=ID";
           $result = mysqli_query($db_handle, $sql);
 
           echo "<table border=\"1\" style='width:100%'>";
           while ($data = mysqli_fetch_assoc($result)) {
-            echo "<tr id='" . $data['ID'] . "'>";
-            echo "<td style='width: 60px'>" . "<img src='" . $data['PDP'] . "' height='45' width='60'>" . "</td>";
-            echo "<td>" . $data['Nom'] . "</td>";
+            echo "<tr id='" . $data['ID'] . "' onclick='changeConv(this.id)'>";
+            echo "<td style='width: 60px'>" . "<img src='" . $data['photo'] . "' height='45' width='60'>" . "</td>";
+            echo "<td>" . $data['nom'] . "</td>";
             echo "</tr>";
           }
           echo "</table>";
@@ -93,7 +102,22 @@ $userID = 3;
     </div>
     <div class="col-sm-9" style=" height:100%;">
       <div class="card" style=" height:100%; overflow-x: hidden; overflow-y: scroll;">
-        <img src="img/profile-picture-default.png" width="800" height="600">
+        <div id="conv_header" class="card-header" style="text-align: left">
+
+        </div>
+        <div id="conv_body" class="card-body">
+
+        </div>
+        <div id="conv_footer" class="card-footer" style="text-align:left;">
+          <div style="display: flex;">
+            <button type="button" style="height: 30px; width: 30px"
+              onclick="document.getElementsByName('photo')[0].style.display=document.getElementsByName('photo')[0].style.display=='none' ? 'block' : 'none' ">+</button>
+            <input type=" text" placeholder="Message" style="width: 100%;">
+            <input type="button" value="Envoyer">
+          </div>
+
+          <input type="file" name="photo" accept="image/png, image/jpeg" style="display: none; margin: 10px">
+        </div>
       </div>
     </div>
 </body>
