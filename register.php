@@ -3,20 +3,15 @@
 if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
   // a
-  $Pseudo = isset($_POST["Pseudo"]) ? $_POST["Pseudo"] : "";
-  $Nom = isset($_POST["Nom"]) ? $_POST["Nom"] : "";
-  $Email = isset($_POST["Email"]) ? $_POST["Email"] : "";
-  $MDP = isset($_POST["password"]) ? $_POST["password"] : "";
+  $Pseudo = isset($_POST["Pseudo"]) ? strip_tags($_POST["Pseudo"]) : "";
+  $Nom = isset($_POST["Nom"]) ? strip_tags($_POST["Nom"]) : "";
+  $Email = isset($_POST["Email"]) ? strip_tags($_POST["Email"]) : "";
+  $MDP = isset($_POST["password"]) ? strip_tags($_POST["password"]) : "";
 
 
   if ($Pseudo != '' and $Nom != '' and $Email != '' and $MDP != '') {
 
-    //identifier votre BDD
-    $database = "ECE_In";
-
-    //identifier votre serveur (localhost), utlisateur (root), mot de passe ("")
-    $db_handle = mysqli_connect('localhost', 'root', '');
-    $db_found = mysqli_select_db($db_handle, $database);
+    include("BDDconnexion.php");
 
     $sql = "";
 

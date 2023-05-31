@@ -1,14 +1,12 @@
 <?php
 include("BDDconnexion.php");
 
-/*session_start();
-if (!isset($_SESSION["userID"]) || empty($_SESSION["userID"]) || $_SESSION["useradmin"] != 1) {
-  echo "<script>document.location.replace('index.php');</script>";
+session_start();
+if (!isset($_SESSION["userID"]) || empty($_SESSION["userID"]) || $_SESSION["userAdmin"] != 1) {
+  echo "<script>document.location.replace('login.php');</script>";
   die();
-} else {
-  $userID = $_SESSION["userID"];
-}*/
-$userID = 3;
+}
+$userID = $_SESSION["userID"];
 
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
@@ -35,11 +33,11 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
   }
 
   if ($correct) {
-    $pseudo = $_POST["Pseudo"];
-    $nom = $_POST["Nom"];
-    $email = $_POST["Email"];
-    $admin = $_POST["Admin"];
-    $mdp = $_POST["MDP"];
+    $pseudo = strip_tags($_POST["Pseudo"]);
+    $nom = strip_tags($_POST["Nom"]);
+    $email = strip_tags($_POST["Email"]);
+    $admin = strip_tags($_POST["Admin"]);
+    $mdp = strip_tags($_POST["MDP"]);
 
     if (isset($_FILES["photo"]) && $_FILES["photo"]["error"] === 0) {
       // extension autoriser
