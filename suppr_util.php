@@ -12,6 +12,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'GET') {
 
     if ($data["PDP"] != "img/profile-picture-default.png")
       unlink($data["PDP"]);
+    if ($data["Banniere"] != "img/banniere-picture-default.png")
+      unlink($data["Banniere"]);
 
     $sql = "DELETE FROM utilisateur WHERE ID=$id";
     $result = mysqli_query($db_handle, $sql);
