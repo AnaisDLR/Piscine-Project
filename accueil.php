@@ -44,7 +44,7 @@ $data = mysqli_fetch_assoc($result);
         <div class="collapse navbar-collapse" id="main-navigation">
             <ul class="navbar-nav">
                 <li class="nav-item"><a class="nav-link" href="accueil.php" style="color:white">Accueil</a></li>
-                <li class="nav-item"><a class="nav-link" href="#" style="color:white">Réseau</a></li>
+                <li class="nav-item"><a class="nav-link" href="reseau.php" style="color:white">Réseau</a></li>
                 <li class="nav-item"><a class="nav-link" href="#" style="color:white">Offres d'emploi</a></li>
                 <li class="nav-item"><a class="nav-link" href="#" style="color:white">Messagerie</a></li>
                 <li class="nav-item"><a class="nav-link" href="#" style="color:white">Notifications</a></li>
