@@ -13,6 +13,73 @@ $userID = 1;
 $sql = "SELECT * FROM utilisateur WHERE ID=$userID";
 $result = mysqli_query($db_handle, $sql);
 $selfdata = mysqli_fetch_assoc($result);
+
+
+
+
+include("BDDconnexion.php");
+
+if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+  $correct = 1;
+  if (!isset($_POST["nom"]) || empty($_POST["nom"])) {
+    echo "Erreur nom<br>";
+    $correct = 0;
+  }
+  if (!isset($_POST["membre"]) || empty($_POST["membre"][0])) {
+    echo "Erreur membre<br>";
+    $correct = 0;
+  }
+
+  if ($correct) {
+    $nom = strip_tags($_POST["nom"]);
+    if (isset($_FILES["photo"]) && $_FILES["photo"]["error"] === 0) {
+      // extension autoriser
+      $allowed = [
+        "png" => "image/png",
+        "jpg" => "image/jpeg",
+        "jpeg" => "image/jpeg"
+      ];
+
+      $filename = $_FILES["photo"]["name"];
+      $filetype = $_FILES["photo"]["type"];
+      $filesize = $_FILES["photo"]["size"];
+      $tmp_name = $_FILES["photo"]["tmp_name"];
+
+      $extension = strtolower(pathinfo($filename, PATHINFO_EXTENSION));
+
+      if (!array_key_exists($extension, $allowed) || !in_array($filetype, $allowed)) {
+        die("Erreur: format de fichier incorrect");
+      }
+
+
+      // on génère un nom unique
+      $newname = md5(uniqid());
+      $newfilename = __DIR__ . "/img/$newname.$extension";
+
+      if (!move_uploaded_file($tmp_name, $newfilename)) {
+        die("Erreur: téléchargement échoué");
+      }
+
+      chmod($newfilename, 0644);
+
+      $photo = "img/$newname.$extension";
+      $sql = "INSERT INTO conversation (nom, photo) VALUES ('$nom', '$photo');";
+    } else {
+      $sql = "INSERT INTO conversation (nom) VALUES ('$nom');";
+    }
+
+    $result = mysqli_query($db_handle, $sql);
+
+    $convID = mysqli_insert_id($db_handle);
+    $membres = array_unique($_POST["membre"]);
+    $membres[] = $userID;
+    foreach ($membres as $membre) {
+      $sql = "INSERT INTO discuter (ID_user, ID_conv) VALUES ($membre, $convID);";
+      $result = mysqli_query($db_handle, $sql);
+    }
+  }
+}
+
 ?>
 
 
@@ -64,6 +131,7 @@ $selfdata = mysqli_fetch_assoc($result);
       background-color: #bbb;
       border: 1px solid black;
       border-radius: 5px;
+      max-width: 80%;
     }
 
     .message>.nom {
@@ -103,7 +171,10 @@ $selfdata = mysqli_fetch_assoc($result);
   <div class="row" align="center" style="margin:0; height: 85%;">
     <div class="col-sm-3" style=" height:100%;">
       <div class="card" style=" height:100%;">
-        <h2 class="card-header">Discussions</h2>
+        <div class="card-header" style="text-align: left; display: flex; flex-wrap: wrap-reverse;">
+          <span style="font-size: 2em; flex: 1">Discussions</span>
+          <button type="button" style="font-size: 1.2em; width: 2em; height: 2em;" onclick="changeConv(-1)">+</button>
+        </div>
         <div id="card-body" style="padding:.3125rem; height:100%; overflow-x: hidden; overflow-y: auto;">
           <!-- Tableau des discussion à afficher ici -->
           <?php
@@ -130,15 +201,17 @@ $selfdata = mysqli_fetch_assoc($result);
         <div id="conv_body" class="card-body" style=" height:100%; overflow-x: hidden; overflow-y: auto;">
 
         </div>
-        <div id="conv_footer" class="card-footer" style="text-align:left;">
-          <div style="display: flex;">
-            <button type="button" style="height: 30px; width: 30px"
-              onclick="document.getElementsByName('photo')[0].style.display=document.getElementsByName('photo')[0].style.display=='none' ? 'block' : 'none' ">+</button>
-            <input type=" text" placeholder="Message" style="width: 100%;">
-            <input type="button" value="Envoyer">
-          </div>
+        <div id="conv_footer" class="card-footer" style="text-align:left; ">
+          <form id="formessage" action="" method="post" enctype="multipart/form-data">
+            <div style="display: flex;">
+              <button type="button" style="height: 30px; width: 30px"
+                onclick="document.getElementsByName('photo')[0].style.display=document.getElementsByName('photo')[0].style.display=='none' ? 'block' : 'none' ">+</button>
+              <input type=" text" name="texte" placeholder="Message" style="width: 100%;">
+              <input type="submit" value="Envoyer">
+            </div>
 
-          <input type=" file" name="photo" accept="image/png, image/jpeg" style="display: none; margin: 10px">
+            <input type="file" name="photo" accept="image/png, image/jpeg" style="display: none; margin: 10px">
+          </form>
         </div>
       </div>
     </div>

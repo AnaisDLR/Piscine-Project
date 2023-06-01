@@ -8,11 +8,12 @@ if ($_SERVER['REQUEST_METHOD'] == 'GET') {
     $id = (int) strip_tags($_GET['id']);
 
 
-    $sql = "SELECT message.ID as ID, Pseudo, photo, texte FROM message, utilisateur WHERE discussion=$idconv AND auteur=utilisateur.ID";
+    $sql = "SELECT message.*, Pseudo FROM message, utilisateur
+        WHERE discussion=$idconv AND auteur=utilisateur.ID ORDER BY message.date ASC";
     $result = mysqli_query($db_handle, $sql);
 
     while ($data = mysqli_fetch_assoc($result)) {
-      if ($data['ID'] == $id) {
+      if ($data['auteur'] == $id) {
         echo "<div id='" . $data['ID'] . "' style='display: flex; justify-content: right;'>";
         echo "<div class='message' style='background-color: #256a6a78;'>";
       } else {
@@ -21,7 +22,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'GET') {
       }
       echo "<span class='nom'>" . $data["Pseudo"] . "</span>";
       echo "<br>";
-      echo "<img src='" . $data['photo'] . "' >";
+      echo "<img src='" . $data['photo'] . "' style='max-width: 100%;'>";
       if ($data["photo"])
         echo "<br>";
       echo "<span class='corp'>" . $data["texte"] . "</span>";
