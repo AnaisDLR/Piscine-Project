@@ -4,14 +4,14 @@ include("BDDconnexion.php");
 //recupération et vérification des donné de l'utilisateur
 session_start();
 if (!isset($_SESSION["userID"]) || empty($_SESSION["userID"])) {
-    echo "<script>alert('Connecte toi avant');document.location.replace('login.php');</script>";
+    echo "<script>alert('Connecte toi avant');document.location.replace('index.php');</script>";
     die();
 }
 $userID = $_SESSION["userID"];
 
 $sql = "SELECT * FROM utilisateur WHERE ID=$userID";
 $result = mysqli_query($db_handle, $sql);
-$data = mysqli_fetch_assoc($result);
+$selfdata = mysqli_fetch_assoc($result);
 ?>
 
 <!DOCTYPE html>
@@ -33,7 +33,7 @@ $data = mysqli_fetch_assoc($result);
     <link rel="stylesheet" href="accueil.css">
 </head>
 
-<body style="background-image:url(<?= $data['Banniere'] ?>); background-size: cover;">
+<body style="background-image:url(<?= $selfdata['Banniere'] ?>); background-size: cover;">
     <!-- Barre navigation -->
     <nav class="navbar navbar-expand-sm bg-dark justify-content-center">
         <!-- .bg-primary, .bg-success, .bg-info, .bg-warning, .bg-danger, .bg-secondary, .bg-dark and .bg-light -->
@@ -45,11 +45,18 @@ $data = mysqli_fetch_assoc($result);
             <ul class="navbar-nav">
                 <li class="nav-item"><a class="nav-link" href="accueil.php" style="color:white">Accueil</a></li>
                 <li class="nav-item"><a class="nav-link" href="reseau.php" style="color:white">Réseau</a></li>
-                <li class="nav-item"><a class="nav-link" href="#" style="color:white">Offres d'emploi</a></li>
-                <li class="nav-item"><a class="nav-link" href="#" style="color:white">Messagerie</a></li>
+                <li class="nav-item"><a class="nav-link" href="emplois.php" style="color:white">Offres d'emploi</a></li>
+                <li class="nav-item"><a class="nav-link" href="messagerie.php" style="color:white">Messagerie</a></li>
                 <li class="nav-item"><a class="nav-link" href="#" style="color:white">Notifications</a></li>
-                <li class="nav-item"><a class="nav-link" href="vous.html" style="color:white">Vous</a></li>
+                <li class="nav-item"><a class="nav-link" href="vous.php" style="color:white">Vous</a></li>
             </ul>
+        </div>
+        <div style="border: 1px black;">
+            <span style="color: #8A8C8F;">
+                <?= $selfdata["Pseudo"] ?>
+            </span>
+            <li class="nav-item"><a class="nav-link" href="index.php"
+                    style="color:white; padding: 0rem 1rem; font-size: 0.8em;">Déconnexion</a></li>
         </div>
     </nav>
     <!-- Contenu -->
@@ -59,8 +66,8 @@ $data = mysqli_fetch_assoc($result);
             <div class="card">
                 <div class="card-header">
                     <!-- <img src="https://www.striol.com/wp-content/uploads/2020/07/pfp.jpg" width=20% height=20%><br>-->
-                    <img src=<?= $data['PDP'] ?> width=20% height=auto><br>
-                    <?= $data['Nom'] ?>
+                    <img src=<?= $selfdata['PDP'] ?> width=20% height=auto><br>
+                    <?= $selfdata['Nom'] ?>
                 </div>
                 <div class="card-body">
                     <div class="container">

@@ -18,6 +18,8 @@ function init(user) {
     xhttp.addEventListener("load", (event) => {
       if (event.target.responseText)
         alert(event.target.responseText);
+      document.getElementById("conv_footer").innerHTML += "";
+      document.getElementsByName('photo')[0].style.display = "none";
     });
 
     xhttp.addEventListener("error", (event) => {
@@ -67,9 +69,6 @@ function changeConv(conv) {
     xhttp.open("GET", "messagerie_conv-form.php?userID=" + userID, true);
     xhttp.send();
   }
-}
-function supmembre() {
-  select = document.getElementById("selectmembre");
 }
 function addmembre() {
   select = document.getElementById("selectmembre");

@@ -2,13 +2,12 @@
 include("BDDconnexion.php");
 
 //recupération et vérification des donné de l'utilisateur
-/*session_start();
+session_start();
 if (!isset($_SESSION["userID"]) || empty($_SESSION["userID"])) {
-  echo "<script>alert('Connecte toi avant');document.location.replace('login.php');</script>";
+  echo "<script>alert('Connecte toi avant');document.location.replace('index.php');</script>";
   die();
 }
-$userID = $_SESSION["userID"];*/
-$userID = 1;
+$userID = $_SESSION["userID"];
 
 $sql = "SELECT * FROM utilisateur WHERE ID=$userID";
 $result = mysqli_query($db_handle, $sql);
@@ -77,6 +76,10 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
       $sql = "INSERT INTO discuter (ID_user, ID_conv) VALUES ($membre, $convID);";
       $result = mysqli_query($db_handle, $sql);
     }
+
+
+    //on recharge la page pour bloquer la double soumission du formulaire
+    echo "<script>document.location.replace('admin.php');</script>";
   }
 }
 
@@ -158,13 +161,20 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     </button>
     <div class="collapse navbar-collapse" id="main-navigation">
       <ul class="navbar-nav">
-        <li class="nav-item"><a class="nav-link" href="accueil.html" style="color:white">Accueil</a></li>
-        <li class="nav-item"><a class="nav-link" href="#" style="color:white">Réseau</a></li>
-        <li class="nav-item"><a class="nav-link" href="#" style="color:white">Offres d'emploi</a></li>
-        <li class="nav-item"><a class="nav-link" href="#" style="color:white">Messagerie</a></li>
+        <li class="nav-item"><a class="nav-link" href="accueil.php" style="color:white">Accueil</a></li>
+        <li class="nav-item"><a class="nav-link" href="reseau.php" style="color:white">Réseau</a></li>
+        <li class="nav-item"><a class="nav-link" href="emplois.php" style="color:white">Offres d'emploi</a></li>
+        <li class="nav-item"><a class="nav-link" href="messagerie.php" style="color:white">Messagerie</a></li>
         <li class="nav-item"><a class="nav-link" href="#" style="color:white">Notifications</a></li>
-        <li class="nav-item"><a class="nav-link" href="vous.html" style="color:white">Vous</a></li>
+        <li class="nav-item"><a class="nav-link" href="vous.php" style="color:white">Vous</a></li>
       </ul>
+    </div>
+    <div style="border: 1px black;">
+      <span style="color: #8A8C8F;">
+        <?= $selfdata["Pseudo"] ?>
+      </span>
+      <li class="nav-item"><a class="nav-link" href="index.php"
+          style="color:white; padding: 0rem 1rem; font-size: 0.8em;">Déconnexion</a></li>
     </div>
   </nav>
   <div style="height:4%"></div>
@@ -206,11 +216,12 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             <div style="display: flex;">
               <button type="button" style="height: 30px; width: 30px"
                 onclick="document.getElementsByName('photo')[0].style.display=document.getElementsByName('photo')[0].style.display=='none' ? 'block' : 'none' ">+</button>
+              <input type="file" name="photo" accept="image/png, image/jpeg" style="display: none; ">
+
               <input type=" text" name="texte" placeholder="Message" style="width: 100%;">
               <input type="submit" value="Envoyer">
             </div>
 
-            <input type="file" name="photo" accept="image/png, image/jpeg" style="display: none; margin: 10px">
           </form>
         </div>
       </div>

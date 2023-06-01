@@ -180,7 +180,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
           </div>
 
           <div class="form-group">
-            <a href="login.php">J'ai déjà un compte</a><br>
+            <a href="index.php">J'ai déjà un compte</a><br>
           </div>
 
           <div class="form-group">
