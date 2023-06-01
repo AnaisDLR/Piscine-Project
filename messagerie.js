@@ -78,7 +78,7 @@ function addmembre() {
   var btn = document.createElement("button");
   btn.setAttribute('type', 'button');
   btn.appendChild(document.createTextNode("-"));
-  btn.setAttribute('onclick', "supmembre(this.parentElement.remove())");;
+  btn.setAttribute('onclick', "this.parentElement.remove()");
   clone.appendChild(btn);
   select.appendChild(clone);
 
