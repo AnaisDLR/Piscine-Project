@@ -183,7 +183,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
       <div class="card" style=" height:100%;">
         <div class="card-header" style="text-align: left; display: flex; flex-wrap: wrap-reverse;">
           <span style="font-size: 2em; flex: 1">Discussions</span>
-          <button type="button" style="font-size: 1.2em; width: 2em; height: 2em;" onclick="changeConv(-1)">+</button>
+          <button type="button" class="btn btn-primary" style="font-size: 1.2em; width: 2em; height: 2em; padding: 0px;"
+            onclick="changeConv(-1)">+</button>
         </div>
         <div id="card-body" style="padding:.3125rem; height:100%; overflow-x: hidden; overflow-y: auto;">
           <!-- Tableau des discussion à afficher ici -->
@@ -219,7 +220,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
               <input type="file" name="photo" accept="image/png, image/jpeg" style="display: none; ">
 
               <input type=" text" name="texte" placeholder="Message" style="width: 100%;">
-              <input type="submit" value="Envoyer">
+              <input type="submit" class="btn btn-primary" style="padding: 0rem .375rem" value="Envoyer">
             </div>
 
           </form>

@@ -4,7 +4,6 @@ function init(user) {
 
   intervalId = setInterval(chargeConv, 1000);
 
-
   const form = document.getElementById("formessage");
 
   form.addEventListener("submit", (event) => {
@@ -18,7 +17,7 @@ function init(user) {
     xhttp.addEventListener("load", (event) => {
       if (event.target.responseText)
         alert(event.target.responseText);
-      document.getElementById("conv_footer").innerHTML += "";
+      form.innerHTML += "";
       document.getElementsByName('photo')[0].style.display = "none";
     });
 
@@ -28,6 +27,8 @@ function init(user) {
 
     xhttp.open("POST", "envoyer_message.php");
     xhttp.send(FD);
+  }, {
+    once: false
   });
 
 }

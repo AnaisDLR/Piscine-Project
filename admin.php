@@ -237,7 +237,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
           <?php
           $sql = "SELECT * FROM utilisateur WHERE ID!=$userID";
           $result = mysqli_query($db_handle, $sql);
-          echo "<table border=\"1\" style='width:100%'>";
+          echo "<table style='width:100%'>";
           echo "<thead style='position: sticky;top: 0px;background: #343a40 !important;color: white;text-align: center;'>";
           echo "<tr>";
           echo "<th>" . "PDP" . "</th>";
@@ -275,7 +275,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
               else
                 echo "hors ligne depuis : " . $diff->format("%y ans") . "<br>";
             }
-            echo "</td><td><button type='button' onclick='suppr_util(this)'>Supprimer</button>";
+            echo "</td><td><button type='button' class='btn btn-primary' onclick='suppr_util(this)'>Supprimer</button>";
             echo "</td></tr>";
           }
           echo "</tbody>";

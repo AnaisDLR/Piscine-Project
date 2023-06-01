@@ -12,7 +12,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     echo "Sélectionner un texte ou une image\n";
     $correct = 0;
   }
-  if (!isset($_POST["conv"]) || empty($_POST["conv"]) || $_POST["conv"] == 'null') {
+  if (!isset($_POST["conv"]) || empty($_POST["conv"]) || $_POST["conv"] > 0) {
     echo "Sélectionner une conversation\n";
     $correct = 0;
   }
