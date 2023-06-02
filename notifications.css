@@ -1,0 +1,24 @@
+body {
+    /*font-family: monospace;*/
+    background: #256A6A;
+    text-align: left;
+}
+
+#emp {
+    border-radius: 10%;
+    width: 100%;
+    height: 30%; 
+}
+
+h3 {
+    text-align: center;
+}
+
+h6 {
+    color: rgb(123, 0, 255);
+    font-weight: bold;
+}
+
+p {
+    display: inline;
+}
