@@ -1,5 +1,5 @@
 function init(user) {
-  actconv = null;
+  actconv = 0;
   userID = user;
 
   intervalId = setInterval(chargeConv, 1000);
@@ -42,8 +42,8 @@ function changeConv(conv) {
   if (document.getElementsByClassName("conv_act")[0])
     document.getElementsByClassName("conv_act")[0].classList.remove("conv_act");
 
+  actconv = conv;
   if (conv > 0) {
-    actconv = conv;
 
     //discussion actuel
     document.getElementById(conv).classList.add("conv_act");

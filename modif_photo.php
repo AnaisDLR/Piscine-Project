@@ -1,31 +1,21 @@
 <?php
-
 include("BDDconnexion.php");
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+
   $correct = 1;
-  //si texte n'est pas defini ou si texte ET photo son vide
-  if (!isset($_POST["texte"])) {
-    echo "Erreur texte\n";
-    $correct = 0;
-  } else if (empty($_POST["texte"]) && !(isset($_FILES["photo"]) && $_FILES["photo"]["error"] === 0)) {
-    echo "Sélectionner un texte ou une image\n";
-    $correct = 0;
-  }
-  if (!isset($_POST["conv"]) || empty($_POST["conv"]) || $_POST["conv"] <= 0) {
-    echo "Sélectionner une conversation\n";
-    $correct = 0;
-  }
   if (!isset($_POST["userID"]) || empty($_POST["userID"])) {
-    echo "Erreur userID\n";
+    echo "erreur userID<br>";
+    $correct = 0;
+  }
+  if (!isset($_POST["PDP"])) {
+    echo "erreur type photo<br>";
     $correct = 0;
   }
 
   if ($correct) {
-    $texte = strip_tags($_POST["texte"]);
-    $conv = (int) strip_tags($_POST["conv"]);
-    $userID = (int) strip_tags($_POST["userID"]);
-
+    $userID = strip_tags($_POST["userID"]);
+    $PDP = strip_tags($_POST["PDP"]);
     if (isset($_FILES["photo"]) && $_FILES["photo"]["error"] === 0) {
       // extension autoriser
       $allowed = [
@@ -57,13 +47,15 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
       chmod($newfilename, 0644);
 
       $photo = "img/$newname.$extension";
-      $sql = "INSERT INTO message (texte, photo, discussion, auteur) VALUES ('$texte', '$photo', $conv, $userID);";
-    } else {
-      $sql = "INSERT INTO message (texte, discussion, auteur) VALUES ('$texte', $conv, $userID);";
+
+      if ($PDP)
+        $sql = "UPDATE utilisateur SET PDP = '$photo' WHERE $userID";
+      else
+        $sql = "UPDATE utilisateur SET Banniere = '$photo' WHERE $userID";
+      $result = mysqli_query($db_handle, $sql);
     }
 
-    $result = mysqli_query($db_handle, $sql);
+    //on recharge la page pour bloquer la double soumission du formulaire
+    echo "<script>document.location.replace('vous.php');</script>";
   }
 }
-
-mysqli_close($db_handle);
