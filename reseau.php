@@ -49,12 +49,6 @@ $userID = $_SESSION["userID"];
                 align-items: center;
             }
 
-     .ami-profil img {
-                width: 100px;
-                height: 100px;
-                margin-right: 20px;
-            }
-
     .ami-profil .details {
                 display: flex;
                 flex-direction: column;
@@ -104,7 +98,7 @@ $userID = $_SESSION["userID"];
                                     echo "<tr class=\"ami-profil\">";
                                     $PDP = $data['PDP'];
                                     $IDami = $data['ID'];
-                                    echo "<td style='width: max-content'>" . "<a href=\"profile.php?id=$IDami\">" . "<img src='$PDP' width=100% height=auto>" . "</a>" . "</td>";
+                                    echo "<td style=\"width:20%\">" . "<a href=\"profile.php?id=$IDami\">" . "<img src='$PDP' width=100% height=auto>" . "</a>" . "</td>";
                                     //echo "<td style='width: max-content'> <img src='$PDP' height='80' width='100'>". "</td>"; 
                                     echo "<td>";
                                         echo "<h5><strong>" . $data['Nom']. "</strong></h5>";
