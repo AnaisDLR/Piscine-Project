@@ -26,6 +26,7 @@ $userID = $_SESSION["userID"];
     <title>Réseau</title>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js">
     </script>
+    <link rel="shortcut icon" href="img/ecein.png" type="image/x-icon">
     <script type="text/javascript">
     </script>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css">
@@ -34,7 +35,7 @@ $userID = $_SESSION["userID"];
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"></script>
     <link rel="stylesheet" href="vous.css">
 
-    <!-- <style>
+    <style>
     html,
     body {
       margin: 0;
@@ -58,7 +59,7 @@ $userID = $_SESSION["userID"];
                 display: flex;
                 flex-direction: column;
             }
-  </style> -->
+  </style>
 </head>
 
 <body>
@@ -73,7 +74,7 @@ $userID = $_SESSION["userID"];
                 <li class="nav-item"><a class="nav-link" href="accueil.php" style="color:white">Accueil</a></li>
                 <li class="nav-item"><a class="nav-link" href="reseau.php" style="color:white">Réseau</a></li>
                 <li class="nav-item"><a class="nav-link" href="emplois.php" style="color:white">Offres d'emploi</a></li>
-                <li class="nav-item"><a class="nav-link" href="#" style="color:white">Messagerie</a></li>
+                <li class="nav-item"><a class="nav-link" href="messagerie.php" style="color:white">Messagerie</a></li>
                 <li class="nav-item"><a class="nav-link" href="#" style="color:white">Notifications</a></li>
                 <li class="nav-item"><a class="nav-link" href="vous.html" style="color:white">Vous</a></li>
             </ul>
@@ -81,8 +82,8 @@ $userID = $_SESSION["userID"];
     </nav>
     <!-- Contenu -->
     <div class="row" align="center">
-        <div class="col-sm-1"></div>
-        <div class="col-sm-10" id="section1">
+        <div class="col-sm-2"></div>
+        <div class="col-sm-8" id="section1">
             <br>
             <div class="card">
                 <div class="card-header">
@@ -98,113 +99,29 @@ $userID = $_SESSION["userID"];
                                             OR (util1.ID=ami.ID_user2 AND util2.ID=ami.ID_user1)) AND util1.ID=$userID;";
                                 $resulta = mysqli_query($db_handle, $ami);
 
-                                echo "<tr>";
-                                echo "<th>" . "PDP" . "</th>";
-                                echo "<th>" . "Pseudo" . "</th>";
-                                echo "<th>" . "Statut" . "</th>";
-                                echo "<th>" . "Emploi" . "</th>";
-                                echo "</tr>";
-                                while ($data = mysqli_fetch_assoc($resulta)) {
-                                    echo "<tr>";
+                                 // Affichage 1 
+                                 while ($data = mysqli_fetch_assoc($resulta)){
+                                    echo "<tr class=\"ami-profil\">";
                                     $PDP = $data['PDP'];
-                                    echo "<td style=\"\"> <img src='$PDP' width=20% height=auto>" . "</td>";
-                                    echo "<td>" . $data['Pseudo'] . "</td>";
-                                    echo "<td> " . $data['Statut'] . "</td>";
-                                    echo "<td> " . $data['Emploi'] . "</td>";
+                                    $IDami = $data['ID'];
+                                    echo "<td style='width: max-content'>" . "<a href=\"profile.php?id=$IDami\">" . "<img src='$PDP' width=100% height=auto>" . "</a>" . "</td>";
+                                    //echo "<td style='width: max-content'> <img src='$PDP' height='80' width='100'>". "</td>"; 
+                                    echo "<td>";
+                                        echo "<h5><strong>" . $data['Nom']. "</strong></h5>";
+                                        echo "<p>" . $data['Emploi'] . "</p>";
+                                    echo "</td>";
                                     echo "</tr>";
-                                }
+                                    }
                                 ?>
                             </tbody>
                         </table>
                     </div>
                 </div>
-                <div class="card-footer">
-                    <div class="container">
-                        <table class="table table-striped">
-                            <thead>
-                                <tr>
-                                    <h3>Projets</h3>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <th>Intitulé</th>
-                                    <th>Durée</th>
-                                    <th>Fonction</th>
-                                    <th>Lien du projet</th>
-                                    <th>Description</th>
-                                </tr>
-                            </tbody>
-                            <tbody>
-                                <tr>
-                                    <td>1</td>
-                                    <td>Les Misérables</td>
-                                    <td>Victor Hugo</td>
-                                    <td>1</td>
-                                    <td>1</td>
-                                </tr>
-                                <tr>
-                                    <td>2</td>
-                                    <td>Hamlet</td>
-                                    <td>William Shakespeare</td>
-                                    <td>1</td>
-                                    <td>1</td>
-                                </tr>
-                                <tr>
-                                    <td>3</td>
-                                    <td>Don Quixote</td>
-                                    <td>Miguel de Cervantes</td>
-                                    <td>1</td>
-                                    <td>1</td>
-                                </tr>
-                                <tr>
-                                    <td>4</td>
-                                    <td>Anna Karenina</td>
-                                    <td>Leo Tolstoy</td>
-                                    <td>1</td>
-                                    <td>1</td>
-                                </tr>
-                                <tr>
-                                    <td>5</td>
-                                    <td>Moby Dick</td>
-                                    <td>1</td>
-                                    <td>1</td>
-                                    <td>Herman Melville</td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
+                
             </div>
             <br>
         </div>
-        <div class="col-sm-1"></div>
-        <div class="col-sm-1"></div>
-        <div class="col-sm-10" id="section2">
-            <br>
-            <div class="card">
-                <div class="card-header">
-                    <h3>CV</h3>
-                    <a href="#" class="btn btn-primary btn-block btn-lg" role="button">Générer mon CV</a>
-                </div>
-            </div>
-            <br>
-        </div>
-        <div class="col-sm-1"></div>
-        <div class="col-sm-1"></div>
-        <div class="col-sm-10" id="section3">
-            <br>
-            <div class="card">
-                <div class="card-header">
-                    <h3>Activité</h3>
-                </div>
-                <div class="card-body">
-                    Content
-                </div>
-            </div>
-            <br>
-        </div>
-        <div class="col-sm-1"></div>
+        <div class="col-sm-2"></div>
     </div>
     <footer class="text-center text-lg-start bg-dark text-muted" id="footer">
         Copyright &copy; 2023 ECE PARIS
