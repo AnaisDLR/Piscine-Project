@@ -65,7 +65,6 @@ $selfdata = mysqli_fetch_assoc($result);
             <br>
             <div class="card">
                 <div class="card-header">
-                    <!-- <img src="https://www.striol.com/wp-content/uploads/2020/07/pfp.jpg" width=20% height=20%><br>-->
                     <img src=<?= $selfdata['PDP'] ?> width=20% height=auto><br>
                     <?= $selfdata['Nom'] ?>
                 </div>
@@ -117,9 +116,15 @@ $selfdata = mysqli_fetch_assoc($result);
             <br>
         </div>
     </div>
+    <!-- Pied de page -->
     <footer class="text-center text-lg-start bg-dark text-muted" id="footer">
         Copyright &copy; 2023 ECE PARIS
     </footer>
 </body>
+
+<?php
+// On ferme la connexion à la base de données
+mysqli_close($db_handle);
+?>
 
 </html>
