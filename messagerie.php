@@ -151,7 +151,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
   </style>
 </head>
 
-<body onload="init(<?= $userID ?>)">
+<body onload="init(<?= $userID ?>)"
+  style="display:flex; flex-direction: column; background-image:url(<?= $selfdata['Banniere'] ?>); background-size: cover;">
   <!-- Barre navigation -->
   <nav class="navbar navbar-expand-sm bg-dark justify-content-center">
     <!-- .bg-primary, .bg-success, .bg-info, .bg-warning, .bg-danger, .bg-secondary, .bg-dark and .bg-light -->
@@ -173,12 +174,11 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
       <span style="color: #8A8C8F;">
         <?= $selfdata["Pseudo"] ?>
       </span>
-      <li class="nav-item"><a class="nav-link" href="index.php"
-          style="color:white; padding: 0rem 1rem; font-size: 0.8em;">Déconnexion</a></li>
+      <a class="nav-link" href="index.php" style="color:white; padding: 0rem 1rem; font-size: 0.8em;">Déconnexion</a>
     </div>
   </nav>
   <div style="height:4%"></div>
-  <div class="row" align="center" style="margin:0; height: 85%;">
+  <div class="row" align="center" style="margin:0; flex: 1;">
     <div class="col-sm-3" style=" height:100%;">
       <div class="card" style=" height:100%;">
         <div class="card-header" style="text-align: left; display: flex; flex-wrap: wrap-reverse;">
@@ -227,10 +227,12 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         </div>
       </div>
     </div>
-    <!-- Pied de page -->
-    <footer class="text-center text-lg-start bg-dark text-muted" id="footer">
-        Copyright &copy; 2023 ECE PARIS
-    </footer>
+  </div>
+  <div style="height:2%"></div>
+  <!-- Pied de page -->
+  <footer class="text-center text-lg-start bg-dark text-muted" id="footer">
+    Copyright &copy; 2023 ECE PARIS
+  </footer>
 </body>
 
 <?php

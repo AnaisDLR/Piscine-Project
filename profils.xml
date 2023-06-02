@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<profils>
+<?xml version='1.0' encoding='UTF-8'?><profils>
     <utilisateur id="1">
         <formations>
             <formation>
@@ -33,42 +32,6 @@
                 <date>2063-01-25</date>
             </formation>
         </formations>
-        <projets>
-            <projet>
-                <Intitulé>1</Intitulé>
-                <Durée>Les Misérables</Durée>
-                <Fonction>Victor Hugo</Fonction>
-                <Lien>1</Lien>
-                <Description>1</Description>
-            </projet>
-            <projet>
-                <Intitulé>2</Intitulé>
-                <Durée>Hamlet William</Durée>
-                <Fonction>Shakespeare</Fonction>
-                <Lien>1</Lien>
-                <Description>1</Description>
-            </projet>
-            <projet>
-                <Intitulé>3</Intitulé>
-                <Durée>Don Quixote</Durée>
-                <Fonction>Miguel de Cervantes</Fonction>
-                <Lien>1</Lien>
-                <Description>1</Description>
-            </projet>
-            <projet>
-                <Intitulé>4</Intitulé>
-                <Durée>Anna Karenina</Durée>
-                <Fonction>Leo Tolstoy</Fonction>
-                <Lien>1</Lien>
-                <Description>1</Description>
-            </projet>
-            <projet>
-                <Intitulé>5</Intitulé>
-                <Durée>Moby Dick</Durée>
-                <Fonction>1</Fonction>
-                <Lien>1</Lien>
-                <Description>Herman Melville</Description>
-            </projet>
-        </projets>
+        <projets><projet ><intitulé>1</intitulé><durée>Les Misérables</durée><fonction>Victor Hugo</fonction><lien>1</lien><description>1</description></projet><projet ><intitulé>2</intitulé><durée>Hamlet William</durée><fonction>Shakespeare</fonction><lien>1</lien><description>1</description></projet><projet ><intitulé>3</intitulé><durée>Don Quixote</durée><fonction>Miguel de Cervantes</fonction><lien>1</lien><description>1</description></projet><projet ><intitulé>4</intitulé><durée>Anna Karenina</durée><fonction>Leo Tolstoy</fonction><lien>1</lien><description>1</description></projet><projet ><intitulé>5</intitulé><durée>Moby Dick</durée><fonction>1</fonction><lien>1</lien><description>Herman Melville</description></projet></projets>
     </utilisateur>
 </profils>

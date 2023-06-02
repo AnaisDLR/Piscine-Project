@@ -34,122 +34,15 @@ $selfdata = mysqli_fetch_assoc($result);
 
   <link rel="stylesheet" href="vous.css">
 
-  <script>
-    function loadXMLDoc(userID) {
-      var xmlhttp = new XMLHttpRequest();
-      xmlhttp.onreadystatechange = function () {
-
-        // Request finished and response
-        // is ready and Status is "OK"
-        if (this.readyState == 4 && this.status == 200) {
-          var xmlDoc = this.responseXML;
-          var table =
-            `<table class="table table-striped">
-              <thead>
-                  <tr>
-                      <h3>Formations</h3>
-                  </tr>
-              </thead>
-              <tbody>
-                  <tr>
-                      <th>Intitulé</th>
-                      <th>Durée</th>
-                      <th>Compétences acquises</th>
-                      <th>Date</th>
-                  </tr>
-              </tbody>
-              <tbody>`;
-          var util = xmlDoc.getElementById(userID);
-          var x = util.getElementsByTagName("formation");
-
-          var ok = [];
-          var min = "";
-          var imin;
-          // Start to fetch the data by using TagName
-          for (let i = 0; i < x.length; i++) {
-            min = "0"
-            for (var j = 0; j < x.length; j++) {
-              if ((min == "0" || x[j].getElementsByTagName("date")[0].childNodes[0].nodeValue < min) && !ok.includes(j)) {
-                min = x[j].getElementsByTagName("date")[0].childNodes[0].nodeValue;
-                imin = j;
-              }
-            }
-            ok.push(imin);
-            table +=
-              "<tr><td>" +
-              x[imin].getElementsByTagName("intitulé")[0]
-                .childNodes[0].nodeValue
-              + "</td><td>" +
-              x[imin].getElementsByTagName("durée")[0]
-                .childNodes[0].nodeValue
-              + "</td><td>" +
-              x[imin].getElementsByTagName("compétence")[0]
-                .childNodes[0].nodeValue
-              + "</td><td>" +
-              x[imin].getElementsByTagName("date")[0]
-                .childNodes[0].nodeValue
-              + "</td></tr>";
-          }
-          table += "</tbody></table>";
-
-          document.getElementById("formations").innerHTML = table;
-
-
-          table =
-            `<table class="table table-striped">
-              <thead>
-                  <tr>
-                      <h3>Projets</h3>
-                  </tr>
-              </thead>
-              <tbody>
-                  <tr>
-                      <th>Intitulé</th>
-                      <th>Durée</th>
-                      <th>Fonction</th>
-                      <th>Lien du projet</th>
-                      <th>Description</th>
-                  </tr>
-              </tbody>
-              <tbody>`;
-
-
-
-          x = util.getElementsByTagName("projet");
-
-          // Start to fetch the data by using TagName
-          for (let i = 0; i < x.length; i++) {
-            table +=
-              "<tr><td>" +
-              x[i].getElementsByTagName("Intitulé")[0]
-                .childNodes[0].nodeValue
-              + "</td><td>" +
-              x[i].getElementsByTagName("Durée")[0]
-                .childNodes[0].nodeValue
-              + "</td><td>" +
-              x[i].getElementsByTagName("Fonction")[0]
-                .childNodes[0].nodeValue
-              + "</td><td>" +
-              x[i].getElementsByTagName("Lien")[0]
-                .childNodes[0].nodeValue
-              + "</td><td>" +
-              x[i].getElementsByTagName("Description")[0]
-                .childNodes[0].nodeValue
-              + "</td></tr>";
-          }
-
-          table += "</tbody></table>";
-          document.getElementById("projets").innerHTML = table;
-        }
-      };
-      // etudiants.xml is the external xml file
-      xmlhttp.open("GET", "profils.xml", true);
-      xmlhttp.send();
+  <script src="vous.js"></script>
+  <style>
+    input {
+      width: 100%;
     }
-  </script>
+  </style>
 </head>
 
-<body>
+<body onload="init(<?= $userID ?>)" style="background-image:url(<?= $selfdata['Banniere'] ?>); background-size: cover;">
   <!-- Barre navigation -->
   <nav class="navbar navbar-expand-sm bg-dark justify-content-center">
     <!-- .bg-primary, .bg-success, .bg-info, .bg-warning, .bg-danger, .bg-secondary, .bg-dark and .bg-light -->
@@ -171,8 +64,7 @@ $selfdata = mysqli_fetch_assoc($result);
       <span style="color: #8A8C8F;">
         <?= $selfdata["Pseudo"] ?>
       </span>
-      <li class="nav-item"><a class="nav-link" href="index.php"
-          style="color:white; padding: 0rem 1rem; font-size: 0.8em;">Déconnexion</a></li>
+      <a class="nav-link" href="index.php" style="color:white; padding: 0rem 1rem; font-size: 0.8em;">Déconnexion</a>
     </div>
   </nav>
   <!-- Contenu -->
@@ -190,12 +82,37 @@ $selfdata = mysqli_fetch_assoc($result);
           <br>
         </div>
         <div class="card-header">
-          <a href="#" class="btn btn-primary" role="button">Modifier ma photo</a>
-          <a href="#" class="btn btn-primary" role="button">Modifier mon image de fond</a>
-          <a href="#" class="btn btn-primary" role="button">Modifier mes formations</a>
-          <a href="#" class="btn btn-primary" role="button">Modifier mes projets</a>
-          <a href="#" class="btn btn-primary" role="button">Modifier mes posts</a>
+          <button type="button" class="btn btn-primary" onclick="modifier_photo()">Modifier ma photo</button>
+          <button type="button" class="btn btn-primary" onclick="modifier_banniere()">Modifier mon image de
+            fond</button>
+          <button type="button" class="btn btn-primary" onclick="modifier_formations(<?= $userID ?>)">Modifier mes
+            formations</button>
+          <button type="button" class="btn btn-primary" onclick="modifier_projets(<?= $userID ?>)">Modifier mes
+            projets</button>
+          <button type="button" class="btn btn-primary" onclick="">Modifier mes posts</button>
+
+          <div id="modif_photo" style="display: none; margin:1em;" align="left">
+            <form action="modif_photo.php" method="post" enctype="multipart/form-data">
+              <label for="photo" style="margin-right: 1em; font-size: 1.5em;">Nouvelle photo de profil :</label>
+              <input type="file" name="photo" style="width:auto;" accept="image/png, image/jpeg">
+              <input type="hidden" name="userID" value="<?= $userID ?>">
+              <input type="hidden" name="PDP" value="1">
+              <input type="submit" value="Modifier" class="btn btn-primary btn-block"
+                style="width:auto; display:initial; float:right;">
+            </form>
+          </div>
+          <div id="modif_banniere" style="display: none; margin:1em;" align="left">
+            <form action="modif_photo.php" method="post" enctype="multipart/form-data">
+              <label for="photo" style="margin-right: 1em; font-size: 1.5em;">Nouvelle image de fond :</label>
+              <input type="file" name="photo" style="width:auto;" accept="image/png, image/jpeg">
+              <input type="hidden" name="userID" value="<?= $userID ?>">
+              <input type="hidden" name="PDP" value="0">
+              <input type="submit" value="Modifier" class="btn btn-primary btn-block"
+                style="width:auto; display:initial; float:right;">
+            </form>
+          </div>
         </div>
+
         <div class="card-body">
           <div id="formations" class="container">
 
@@ -207,7 +124,7 @@ $selfdata = mysqli_fetch_assoc($result);
           </div>
         </div>
 
-        <?= "<script>loadXMLDoc($userID)</script>" ?>
+        <script>loadXMLDoc()</script>
 
       </div>
       <br>
