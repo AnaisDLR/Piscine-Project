@@ -89,7 +89,7 @@ $selfdata = mysqli_fetch_assoc($result);
             formations</button>
           <button type="button" class="btn btn-primary" onclick="modifier_projets(<?= $userID ?>)">Modifier mes
             projets</button>
-          <button type="button" class="btn btn-primary" onclick="">Modifier mes posts</button>
+          <button type="button" class="btn btn-primary" onclick="modifier_post()">Modifier mes posts</button>
 
           <div id="modif_photo" style="display: none; margin:1em;" align="left">
             <form action="modif_photo.php" method="post" enctype="multipart/form-data">
@@ -149,8 +149,39 @@ $selfdata = mysqli_fetch_assoc($result);
         <div class="card-header">
           <h3>Activité</h3>
         </div>
-        <div class="card-body">
-          Content
+        <div id="listepost" class="card-body">
+          <?php
+          $sql = "SELECT post.* FROM post, utilisateur as autor 
+            WHERE post.auteur=autor.ID AND autor.ID=$userID ORDER BY date DESC";
+          $result = mysqli_query($db_handle, $sql);
+          echo "<table style='width:100%;'><tbody>";
+
+          while ($data = mysqli_fetch_assoc($result)) {
+            echo "<tr id='" . $data['ID'] . "' style='border: 1px solid lightgray;'>";
+            echo "<td style='width:20%;'><img src='" . $data['photo'] . "' style='width: 100%;'></td>";
+            echo "<td style='padding: 0.3em;'>";
+            echo "";
+            echo "<span>" . ($data["texte"] ? $data["texte"] : ">aucun texte") . "</span>";
+            echo "<br><br>";
+            echo "<span>" . $data["date"] . "</span>";
+            echo "<br>>";
+            echo "<span>Visible par : ";
+            switch ($data["publique"]) {
+              case 1:
+                echo "amis seulements";
+                break;
+              case 2:
+                echo "tous le monde";
+                break;
+              default:
+                echo $data["publique"];
+            }
+            echo "</span>";
+            echo "<span style='float:right;'>" . $data["like"] . " &#128077</span>";
+            echo "</td></tr>";
+          }
+          echo "</tbody></table>";
+          ?>
         </div>
       </div>
       <br>

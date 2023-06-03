@@ -80,37 +80,48 @@ $selfdata = mysqli_fetch_assoc($result);
                             WHERE utilisateur.ID=ID_user 
                             AND ID_event=event.ID 
                             AND event.auteur=autor.ID 
-                            AND utilisateur.ID=1 
+                            AND utilisateur.ID=$userID
                             UNION SELECT autor.Pseudo, event.* 
                             FROM utilisateur, event, utilisateur as autor 
                             WHERE event.auteur=autor.ID 
-                            AND autor.Nom='ECE';";
+                            AND (autor.Nom='ECE' OR autor.Nom='Omnes Education');";
 
                             
                             $result = mysqli_query($db_handle, $sql);
-                            $number = 0;
+
                             while ($data = mysqli_fetch_assoc($result)) {
-
-                                $number += 1;
-                                if ($number == 1)
-                                    echo "<div class='row'>";
-
+                                $val2 = $data['auteur'];
+                                $sql2 = "SELECT COUNT(ID_user1) as val FROM ami 
+                                WHERE (ID_user1=$userID AND ID_user2=$val2)
+                                OR    (ID_user1=$val2 AND ID_user2=$userID );";
+                                $result2 = mysqli_query($db_handle, $sql2);
+                                $data2 = mysqli_fetch_assoc($result2);
+                                
+                                
+                                echo "<div class='row size'>";
+                                
                                 if ($data['photo'] == "")
-                                    $data['photo'] = "img/default_emploi.jpg";
+                                    $data['photo'] = "img/event.png";
                                 echo "<div class='card col-sm-4'>";
-                                echo "<img class='card-img-top' id='emp' src='" . $data['photo'] . "'><br>";
+                                echo "<img class='card-img-top' id='img' src='" . $data['photo'] . "'><br>";
+                                echo "<a href='#' class='btn btn-primary'>Je participe</a>";
                                 echo "</div>";
 
                                 echo "<div class='card col-sm-8'>";
                                 echo "<div class='card-body'>";
-                                echo "<h6 class='card-text'>Nouvelle évènement disponible</h6>";
+                                if ($data['Pseudo'] == 'ECE')                  echo "<h6 class='card-text' style='color: rgb(60, 0, 255);'>Nouvelle évènement de l'école disponible</h6>";
+                                else if ($data['Pseudo'] == 'Omnes Education') echo "<h6 class='card-text' style='color: rgb(211, 0, 255);'>Nouvelle évènement d'un partenaire de l'école disponible</h6>";
+                                else {                                          
+                                    if ($data2['val'] == 1) echo "<h6 class='card-text' style='color: rgb(255, 0, 64);'>Nouvelle évènement d'un ami disponible</h6>";
+                                    else                    echo "<h6 class='card-text' style='color: rgb(255, 0, 162);'>Nouvelle évènement de l'ami d'un ami disponible</h6>";
+                                }
                                 echo "<p class='card-text'><small class='text-muted'>" . $data['Pseudo'] . " vous invite a un évènement !</small></p><br>";
                                 echo "<p class='card-text'>" . $data['texte'] . "</p>";
                                 echo "<br><br><p>&#9201;</p><p style='text-decoration: underline;'>Date : </p>
-                                <i style='text-decoration: underline;'class='card-text far fa-calendar'>" . $data['date'] . "</i><br>";
-                                echo "<p class='card-text'>" . $data['lieu'] . "</p><br><br>";
+                                <p style='text-decoration: underline;'class='card-text far fa-calendar'>" . $data['date'] . "</p><br>";
+                                echo "<p>&#128205;</p><p style='text-decoration: underline;' class='card-text'>" . $data['lieu'] . "</p><br><br>";
                                 
-                                echo "<a href='#' class='btn btn-primary'>Découvrir</a>";
+                                echo "</div>";
                                 echo "</div>";
                                 echo "</div>";
 
@@ -127,7 +138,7 @@ $selfdata = mysqli_fetch_assoc($result);
         </div>
     </div>
     </div>
-                              
+                  
     <footer class="text-center text-lg-start bg-dark text-muted" id="footer">
         Copyright &copy; 2023 ECE PARIS
     </footer>
