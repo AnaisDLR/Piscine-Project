@@ -82,164 +82,62 @@ $data = mysqli_fetch_assoc($result);
 </head>
 
 <body>
-    <!-- Barre navigation -->
-    <nav class="navbar navbar-expand-sm bg-dark justify-content-center">
-        <a class="navbar-brand"><img src="img/ecein.png" width=20% height=20%></a>
-        <button class="navbar-toggler navbar-dark" type="button" data-toggle="collapse" data-target="#main-navigation">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="main-navigation">
-            <ul class="navbar-nav">
-                <li class="nav-item"><a class="nav-link" href="accueil.php" style="color:white">Accueil</a></li>
-                <li class="nav-item"><a class="nav-link" href="reseau.php" style="color:white">Réseau</a></li>
-                <li class="nav-item"><a class="nav-link" href="emplois.php" style="color:white">Offres d'emploi</a></li>
-                <li class="nav-item"><a class="nav-link" href="messagerie.php" style="color:white">Messagerie</a></li>
-                <li class="nav-item"><a class="nav-link" href="#" style="color:white">Notifications</a></li>
-                <li class="nav-item"><a class="nav-link" href="vous.html" style="color:white">Vous</a></li>
-            </ul>
+  <!-- Barre navigation -->
+  <nav class="navbar navbar-expand-sm bg-dark justify-content-center">
+    <!-- .bg-primary, .bg-success, .bg-info, .bg-warning, .bg-danger, .bg-secondary, .bg-dark and .bg-light -->
+    <a class="navbar-brand"><img src="img/ecein.png" width=20% height=20%></a>
+    <button class="navbar-toggler navbar-dark" type="button" data-toggle="collapse" data-target="#main-navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="main-navigation">
+      <ul class="navbar-nav">
+        <li class="nav-item"><a class="nav-link" href="accueil.php" style="color:white">Accueil</a></li>
+        <li class="nav-item"><a class="nav-link" href="reseau.php" style="color:white">Réseau</a></li>
+        <li class="nav-item"><a class="nav-link" href="emplois.php" style="color:white">Offres d'emploi</a></li>
+        <li class="nav-item"><a class="nav-link" href="messagerie.php" style="color:white">Messagerie</a></li>
+        <li class="nav-item"><a class="nav-link" href="#" style="color:white">Notifications</a></li>
+        <li class="nav-item"><a class="nav-link" href="vous.php" style="color:white">Vous</a></li>
+      </ul>
+    </div>
+    <div style="border: 1px black;">
+      <span style="color: #8A8C8F;">
+        <?= $selfdata["Pseudo"] ?>
+      </span>
+      <a class="nav-link" href="index.php" style="color:white; padding: 0rem 1rem; font-size: 0.8em;">Déconnexion</a>
+    </div>
+  </nav>
+  <!-- Contenu -->
+  <div class="row" align="center">
+    <div class="col-sm-2"></div>
+    <div class="col-sm-8" id="section1">
+      <br>
+      <div class="card">
+        <div class="card-header">
+          <h3>Mes amis :</h3>
         </div>
-    </nav>
-    <!-- Contenu -->
-    <div class="row" align="center">
-        <div class="col-sm-1"></div>
-        <div class="col-sm-10" id="section1">
-            <br>
-            <div class="card">
-                <div class="card-header">
-                    <img src=<?= $data['PDP'] ?> width=20% height=auto><br><br>
-                    <?= $data['Pseudo'] ?><br>
-                    <?= "<span style='color: silver'>" . $data['Statut'] . "</span>";?><br>
-                    Nom complet : <?= $data['Nom'] ?><br>
-                    Emploi : <?= $data['Emploi'] ?> 
-                </div>
-                <div class="card-body">
-                    <div class="container">
-                        <table class="table table-striped">
-                            <thead>
-                                <tr><h3>Formations</h3></tr> 
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <th>Intitulé</th> 
-                                    <th>Durée</th> 
-                                    <th>Compétences acquises</th> 
-                                </tr>
-                            </tbody>
-                            <tbody>
-                                <tr> 
-                                    <td>1</td>
-                                    <td>Les Misérables</td>
-                                    <td>Victor Hugo</td>
-                                </tr>
-                                <tr> 
-                                    <td>2</td>
-                                    <td>Hamlet</td>
-                                    <td>William Shakespeare</td> 
-                                </tr>
-                                <tr> 
-                                    <td>3</td>
-                                    <td>Don Quixote</td> 
-                                    <td>Miguel de Cervantes</td> 
-                                </tr>
-                                <tr> 
-                                    <td>4</td>
-                                    <td>Anna Karenina</td> 
-                                    <td>Leo Tolstoy</td> 
-                                </tr>
-                                <tr> 
-                                    <td>5</td>
-                                    <td>Moby Dick</td> 
-                                    <td>Herman Melville</td> 
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-                <div class="card-footer">
-                    <div class="container">
-                        <table class="table table-striped">
-                            <thead>
-                                <tr><h3>Projets</h3></tr> 
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <th>Intitulé</th> 
-                                    <th>Durée</th> 
-                                    <th>Fonction</th>
-                                    <th>Lien du projet</th>
-                                    <th>Description</th>
-                                </tr>
-                            </tbody>
-                            <tbody>
-                                <tr> 
-                                    <td>1</td>
-                                    <td>Les Misérables</td>
-                                    <td>Victor Hugo</td>
-                                    <td>1</td>
-                                    <td>1</td>
-                                </tr>
-                                <tr> 
-                                    <td>2</td>
-                                    <td>Hamlet</td>
-                                    <td>William Shakespeare</td>
-                                    <td>1</td>
-                                    <td>1</td> 
-                                </tr>
-                                <tr> 
-                                    <td>3</td>
-                                    <td>Don Quixote</td> 
-                                    <td>Miguel de Cervantes</td>
-                                    <td>1</td>
-                                    <td>1</td> 
-                                </tr>
-                                <tr> 
-                                    <td>4</td>
-                                    <td>Anna Karenina</td> 
-                                    <td>Leo Tolstoy</td> 
-                                    <td>1</td>
-                                    <td>1</td>
-                                </tr>
-                                <tr> 
-                                    <td>5</td>
-                                    <td>Moby Dick</td> 
-                                    <td>1</td>
-                                    <td>1</td>
-                                    <td>Herman Melville</td> 
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                </div> 
-            </div>
-        </div> 
-        <div class="col-sm-1"></div>
-        <div class="col-sm-1"></div>
-        <div class="col-sm-10" id="section3">
-            <br>
-            <div class="card">
-                <div class="card-header">
-                    <h3>Réseau</h3>
-                </div>
-                <div class="card-body">
-                <div class="container">
-                        <table class="table table-striped">
-                            <tbody>
-                                <?php
-                                $amiami = "SELECT util2.* FROM utilisateur as util1, ami, utilisateur as util2 
-                                           WHERE ((util1.ID=ami.ID_user1 AND util2.ID=ami.ID_user2) 
-                                           OR (util1.ID=ami.ID_user2 AND util2.ID=ami.ID_user1)) AND util1.ID=$amiID;";
-                                $resulta = mysqli_query($db_handle, $amiami);
-                    
-                                 // Affichage 1
-                                    while ($data = mysqli_fetch_assoc($resulta)){
-                                        $PDP = $data['PDP'];
-                                        echo "<tr class=\"ami-profil\">";
-                                        echo "<td class=\"details\" style='width:20%'> <img src='$PDP' class=\"image\" onclick=\"addFriend(".$data['ID'] . ", '" . $data['Nom']."')\" width=100% height=auto>" . "</td>";                                    echo "<td>";
-                                            echo "<h5><strong>" . $data['Nom']. "</strong></h5>";
-                                            echo "<p>" . $data['Emploi'] . "</p>";
-                                        echo "</td>";
-                                        echo "</tr>";
-                                    }
+        <div class="card-body">
+          <div class="container">
+            <table class="table table-striped">
+              <tbody>
+                <?php
+                $ami = "SELECT util2.* FROM utilisateur as util1, ami, utilisateur as util2 
+                                            WHERE ((util1.ID=ami.ID_user1 AND util2.ID=ami.ID_user2) 
+                                            OR (util1.ID=ami.ID_user2 AND util2.ID=ami.ID_user1)) AND util1.ID=$userID;";
+                $resulta = mysqli_query($db_handle, $ami);
+
+                // Affichage 1 
+                while ($data = mysqli_fetch_assoc($resulta)){
+                  echo "<tr class=\"ami-profil\">";
+                  $PDP = $data['PDP'];
+                  $IDami = $data['ID'];
+                  echo "<td style='width: max-content'>" . "<a href=\"profile.php?id=$IDami\">" . "<img src='$PDP' width=100% height=auto>" . "</a>" . "</td>";
+                  //echo "<td style='width: max-content'> <img src='$PDP' height='80' width='100'>". "</td>"; 
+                  echo "<td>";
+                      echo "<h5><strong>" . $data['Nom']. "</strong></h5>";
+                      echo "<p>" . $data['Emploi'] . "</p>";
+                  echo "</td>";
+                  echo "</tr>";
+                  }
                                 ?>
                             </tbody>
                         </table>
