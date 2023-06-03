@@ -379,3 +379,31 @@ function modifier_photo() {
 function modifier_banniere() {
   document.getElementById("modif_banniere").style.display = "block";
 }
+
+
+function modifier_post() {
+  let tabletr = document.getElementById("listepost").children[0].children[0].children;
+
+  for (let i = 0; i < tabletr.length; i++) {
+    let newtd = document.createElement("td");
+    newtd.innerHTML = "<button type='button' class='btn btn-primary' style='float:right; margin-right: 2em' onclick='suppr_post(this)'>Supprimer</button>";
+    tabletr[i].appendChild(newtd);
+  }
+
+  tabletr[0].scrollIntoView();
+}
+
+function suppr_post(button) {
+  post = button.parentElement.parentElement;
+  var xhttp = new XMLHttpRequest();
+
+  xhttp.onreadystatechange = function () {
+    if (this.readyState == 4 && this.status == 200) {
+      post.remove();
+      alert("post supprimer");
+    }
+  };
+
+  xhttp.open("GET", "suppr_post.php?id=" + post.id, true);
+  xhttp.send();
+}

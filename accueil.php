@@ -12,6 +12,68 @@ $userID = $_SESSION["userID"];
 $sql = "SELECT * FROM utilisateur WHERE ID=$userID";
 $result = mysqli_query($db_handle, $sql);
 $selfdata = mysqli_fetch_assoc($result);
+
+
+if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+  $correct = 1;
+  if (!isset($_POST["texte"])) {
+    echo "Erreur Texte<br>";
+    $correct = 0;
+  } else if (empty($_POST["texte"]) && !(isset($_FILES["photo"]) && $_FILES["photo"]["error"] === 0)) {
+    echo "Sélectionner un texte ou une image\n";
+    $correct = 0;
+  }
+  if (!isset($_POST["publique"]) || empty($_POST["publique"])) {
+    echo "Erreur publique<br>";
+    $correct = 0;
+  }
+
+  if ($correct) {
+    $texte = strip_tags($_POST["texte"]);
+    $publique = (int) strip_tags($_POST["publique"]);
+
+    if (isset($_FILES["photo"]) && $_FILES["photo"]["error"] === 0) {
+      // extension autoriser
+      $allowed = [
+        "png" => "image/png",
+        "jpg" => "image/jpeg",
+        "jpeg" => "image/jpeg"
+      ];
+
+      $filename = $_FILES["photo"]["name"];
+      $filetype = $_FILES["photo"]["type"];
+      $filesize = $_FILES["photo"]["size"];
+      $tmp_name = $_FILES["photo"]["tmp_name"];
+
+      $extension = strtolower(pathinfo($filename, PATHINFO_EXTENSION));
+
+      if (!array_key_exists($extension, $allowed) || !in_array($filetype, $allowed)) {
+        die("Erreur: format de fichier incorrect");
+      }
+
+
+      // on génère un nom unique
+      $newname = md5(uniqid());
+      $newfilename = __DIR__ . "/img/$newname.$extension";
+
+      if (!move_uploaded_file($tmp_name, $newfilename)) {
+        die("Erreur: téléchargement échoué");
+      }
+
+      chmod($newfilename, 0644);
+
+      $photo = "img/$newname.$extension";
+      $sql = "INSERT INTO post (texte, photo, publique, auteur) VALUES ('$texte', '$photo', $publique, $userID);";
+    } else {
+      $sql = "INSERT INTO post (texte, publique, auteur) VALUES ('$texte', $publique, $userID);";
+    }
+
+    $result = mysqli_query($db_handle, $sql);
+
+    //on recharge la page pour bloquer la double soumission du formulaire
+    echo "<script>document.location.replace('accueil.php');</script>";
+  }
+}
 ?>
 
 <!DOCTYPE html>
@@ -31,9 +93,10 @@ $selfdata = mysqli_fetch_assoc($result);
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"></script>
 
   <link rel="stylesheet" href="accueil.css">
+  <script src="accueil.js"></script>
 </head>
 
-<body style="background-image:url(<?= $selfdata['Banniere'] ?>); background-size: cover;">
+<body onload="init(<?= $userID ?>)" style="background-image:url(<?= $selfdata['Banniere'] ?>); background-size: cover;">
   <!-- Barre navigation -->
   <nav class="navbar navbar-expand-sm bg-dark justify-content-center">
     <!-- .bg-primary, .bg-success, .bg-info, .bg-warning, .bg-danger, .bg-secondary, .bg-dark and .bg-light -->
@@ -43,12 +106,12 @@ $selfdata = mysqli_fetch_assoc($result);
     </button>
     <div class="collapse navbar-collapse" id="main-navigation">
       <ul class="navbar-nav">
-                <li class="nav-item"><a class="nav-link" href="accueil.php" style="color:white">Accueil</a></li>
-                <li class="nav-item"><a class="nav-link" href="reseau.php" style="color:white">Réseau</a></li>
-                <li class="nav-item"><a class="nav-link" href="emplois.php" style="color:white">Offres d'emploi</a></li>
-                <li class="nav-item"><a class="nav-link" href="messagerie.php" style="color:white">Messagerie</a></li>
-                <li class="nav-item"><a class="nav-link" href="notifications.php" style="color:white">Notifications</a></li>
-                <li class="nav-item"><a class="nav-link" href="vous.php" style="color:white">Vous</a></li>
+        <li class="nav-item"><a class="nav-link" href="accueil.php" style="color:white">Accueil</a></li>
+        <li class="nav-item"><a class="nav-link" href="reseau.php" style="color:white">Réseau</a></li>
+        <li class="nav-item"><a class="nav-link" href="emplois.php" style="color:white">Offres d'emploi</a></li>
+        <li class="nav-item"><a class="nav-link" href="messagerie.php" style="color:white">Messagerie</a></li>
+        <li class="nav-item"><a class="nav-link" href="#" style="color:white">Notifications</a></li>
+        <li class="nav-item"><a class="nav-link" href="vous.php" style="color:white">Vous</a></li>
       </ul>
     </div>
     <div style="border: 1px black;">
@@ -68,8 +131,9 @@ $selfdata = mysqli_fetch_assoc($result);
           <?= $selfdata['Nom'] ?>
         </div>
         <div class="card-body">
-          <div class="container">
-            <a href="#" class="btn btn-primary btn-block" role="button">Commencer un nouveau post</a>
+          <div id="newpostform" class="container">
+            <button type="button" class="btn btn-primary btn-block" onclick="newpost()">Commencer un
+              nouveau post</button>
           </div>
         </div>
       </div>
@@ -86,8 +150,31 @@ $selfdata = mysqli_fetch_assoc($result);
           exigences de formation d’ingénieurs.
         </div>
         <div class="card-body">
-          Publications réseaux
+          <?php
+          $sql = "SELECT autor.Pseudo, post.* FROM post, utilisateur as autor 
+            WHERE post.auteur=autor.ID AND autor.ID=$userID UNION
+            SELECT autor.Pseudo, post.* FROM post, utilisateur as autor 
+            WHERE post.auteur=autor.ID AND publique=2 UNION
+            SELECT autor.Pseudo, post.* FROM post, utilisateur as autor, ami
+            WHERE post.auteur=autor.ID AND ((autor.ID=ID_user1 AND ID_user2=$userID) OR (ID_user1=$userID AND autor.ID=ID_user2))
+            ORDER BY date DESC";
+          $result = mysqli_query($db_handle, $sql);
+
+          while ($data = mysqli_fetch_assoc($result)) {
+            echo "<div id='" . $data['ID'] . "' class='post'>";
+            echo "";
+            echo "<span>" . $data["Pseudo"] . "</span>";
+            echo "<br>";
+            echo "<img src='" . $data['photo'] . "' style='max-width: 100%;'>";
+            if ($data["photo"])
+              echo "<br>";
+            echo "<span>" . $data["texte"] . "</span>";
+            echo "</div>"
+            ;
+          }
+          ?>
         </div>
+
         <div class="card-footer">
 
         </div>
