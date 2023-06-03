@@ -9,7 +9,7 @@ include("BDDconnexion.php");
 //on récupère l'ID de l'user 
 session_start();
 if (!isset($_SESSION["userID"]) || empty($_SESSION["userID"])) {
-    echo "<script>alert('Connecte toi avant');document.location.replace('login.php');</script>";
+    echo "<script>alert('Connecte toi avant');document.location.replace('index.php');</script>";
     die();
 }
 $userID = $_SESSION["userID"];
@@ -40,27 +40,27 @@ $selfdata = mysqli_fetch_assoc($result);
     <link rel="stylesheet" href="vous.css">
 
     <style>
-    html,
-    body {
-      margin: 0;
-      height: 100%;
-      width: 100%;
-    }
+        html,
+        body {
+            margin: 0;
+            height: 100%;
+            width: 100%;
+        }
 
-/* le nom est plus près à la PDP et l'emploi est en dessous du nom */
-    .ami-profil {
-                display: flex;
-                align-items: center;
-            }
+        /* le nom est plus près à la PDP et l'emploi est en dessous du nom */
+        .ami-profil {
+            display: flex;
+            align-items: center;
+        }
 
-    .ami-profil .details {
-                display: flex;
-                flex-direction: column;
-            }
-  </style>
+        .ami-profil .details {
+            display: flex;
+            flex-direction: column;
+        }
+    </style>
 </head>
 
-<body>
+<body style="background-image:url(<?= $selfdata['Banniere'] ?>); background-size: cover;">
     <!-- Barre navigation -->
     <nav class="navbar navbar-expand-sm bg-dark justify-content-center">
         <a class="navbar-brand"><img src="img/ecein.png" width=20% height=20%></a>
@@ -73,7 +73,8 @@ $selfdata = mysqli_fetch_assoc($result);
                 <li class="nav-item"><a class="nav-link" href="reseau.php" style="color:white">Réseau</a></li>
                 <li class="nav-item"><a class="nav-link" href="emplois.php" style="color:white">Offres d'emploi</a></li>
                 <li class="nav-item"><a class="nav-link" href="messagerie.php" style="color:white">Messagerie</a></li>
-                <li class="nav-item"><a class="nav-link" href="notifications.php" style="color:white">Notifications</a></li>
+                <li class="nav-item"><a class="nav-link" href="notifications.php" style="color:white">Notifications</a>
+                </li>
                 <li class="nav-item"><a class="nav-link" href="vous.php" style="color:white">Vous</a></li>
             </ul>
         </div>
@@ -81,7 +82,8 @@ $selfdata = mysqli_fetch_assoc($result);
             <span style="color: #8A8C8F;">
                 <?= $selfdata["Pseudo"] ?>
             </span>
-            <a class="nav-link" href="index.php" style="color:white; padding: 0rem 1rem; font-size: 0.8em;">Déconnexion</a>
+            <a class="nav-link" href="index.php"
+                style="color:white; padding: 0rem 1rem; font-size: 0.8em;">Déconnexion</a>
         </div>
     </nav>
     <!-- Contenu -->
@@ -103,25 +105,25 @@ $selfdata = mysqli_fetch_assoc($result);
                                             OR (util1.ID=ami.ID_user2 AND util2.ID=ami.ID_user1)) AND util1.ID=$userID;";
                                 $resulta = mysqli_query($db_handle, $ami);
 
-                                 // Affichage 1 
-                                 while ($data = mysqli_fetch_assoc($resulta)){
+                                // Affichage 1 
+                                while ($data = mysqli_fetch_assoc($resulta)) {
                                     echo "<tr class=\"ami-profil\">";
                                     $PDP = $data['PDP'];
                                     $IDami = $data['ID'];
                                     echo "<td style=\"width:20%\">" . "<a href=\"profile.php?id=$IDami\">" . "<img src='$PDP' width=100% height=100%>" . "</a>" . "</td>";
                                     //echo "<td style='width: max-content'> <img src='$PDP' height='80' width='100'>". "</td>"; 
                                     echo "<td class=\"details\">";
-                                        echo "<h5><strong>" . $data['Nom']. "</strong></h5>";
-                                        echo "<p>" . $data['Emploi'] . "</p>";
+                                    echo "<h5><strong>" . $data['Nom'] . "</strong></h5>";
+                                    echo "<p>" . $data['Emploi'] . "</p>";
                                     echo "</td>";
                                     echo "</tr>";
-                                    }
+                                }
                                 ?>
                             </tbody>
                         </table>
                     </div>
                 </div>
-                
+
             </div>
             <br>
         </div>

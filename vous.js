@@ -228,12 +228,12 @@ function modifier_formations(userID) {
 
 function addformations() {
   select = document.getElementById("formations").getElementsByTagName("tbody")[1];
-  clone = select.children[0].cloneNode(true);
-  clone.children[0].required = 0;
-  for (let i = 0; i < clone.children.length - 1; i++) {
-    clone.children[i].children[0].value = "";
-  }
-  select.appendChild(clone);
+  select.appendChild(document.createElement("tr")).innerHTML = "<tr><td><input type='text' name='intitule[]' value=''></td>"
+    + "<td><input type='text' name='duree[]' value=''></td>"
+    + "<td><input type='text' name='competence[]' value=''>"
+    + "</td><td><input type='text' name='date[]' value=''></td>"
+    + "<td><button type='button' class='btn btn-primary' onclick='this.parentElement.parentElement.remove()'>Supprimer</button></td>";
+
 }
 
 
@@ -358,12 +358,12 @@ function modifier_projets(userID) {
 
 function addprojets() {
   select = document.getElementById("projets").getElementsByTagName("tbody")[1];
-  clone = select.children[0].cloneNode(true);
-  clone.children[0].required = 0;
-  for (let i = 0; i < clone.children.length - 1; i++) {
-    clone.children[i].children[0].value = "";
-  }
-  select.appendChild(clone);
+  select.appendChild(document.createElement("tr")).innerHTML = "<td><input type='text' name='intitule[]' value=''>"
+    + "</td><td><input type='text' name='duree[]' value=''>"
+    + "</td><td><input type='text' name='fonction[]' value=''>"
+    + "</td><td><input type='text' name='lien[]' value=''></td>"
+    + "<td><input type='text' name='description[]' value=''>"
+    + "</td><td><button type='button' class='btn btn-primary' onclick='this.parentElement.parentElement.remove()'>Supprimer</button></td>";
 }
 
 
@@ -375,19 +375,23 @@ function addprojets() {
 
 function modifier_photo() {
   document.getElementById("modif_photo").style.display = "block";
+  document.getElementById("modif_banniere").style.display = "none";
 }
 function modifier_banniere() {
   document.getElementById("modif_banniere").style.display = "block";
+  document.getElementById("modif_photo").style.display = "none";
 }
 
 
 function modifier_post() {
   let tabletr = document.getElementById("listepost").children[0].children[0].children;
 
-  for (let i = 0; i < tabletr.length; i++) {
-    let newtd = document.createElement("td");
-    newtd.innerHTML = "<button type='button' class='btn btn-primary' style='float:right; margin-right: 2em' onclick='suppr_post(this)'>Supprimer</button>";
-    tabletr[i].appendChild(newtd);
+  if (tabletr[0].childElementCount == 2) {
+    for (let i = 0; i < tabletr.length; i++) {
+      let newtd = document.createElement("td");
+      newtd.innerHTML = "<button type='button' class='btn btn-primary' style='float:right; margin-right: 2em' onclick='suppr_post(this)'>Supprimer</button>";
+      tabletr[i].appendChild(newtd);
+    }
   }
 
   tabletr[0].scrollIntoView();

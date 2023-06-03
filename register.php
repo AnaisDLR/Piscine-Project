@@ -93,6 +93,34 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
             VALUES ('$Pseudo', '$Nom', '$Email', '$MDP', '$PDP', '$ban');";
       $result = mysqli_query($db_handle, $sql);
 
+
+
+      $fp = fopen("profils.xml", "r");
+
+      $contents = '';
+
+      while (!feof($fp)) {
+        $contents .= fread($fp, 8192);
+      }
+
+      fclose($fp);
+      $fp = fopen("profils.xml", "w");
+
+      $lastID = mysqli_insert_id($db_handle);
+      for ($i = 0; $i < strlen($contents) - ($contents[strlen($contents) - 11] == ">" ? 10 : 11); $i++)
+        fwrite($fp, $contents[$i]);
+      fwrite($fp, "<utilisateur id='$lastID'><formations></formations><projets></projets></utilisateur></profils>");
+
+      fclose($fp);
+
+      session_start();
+      $_SESSION["userEmail"] = $Email;
+      $_SESSION["userID"] = $lastID;
+      $_SESSION["userNom"] = $Nom;
+      $_SESSION["userAdmin"] = 0;
+
+
+
       echo "<script>document.location.replace('accueil.php');</script>";
     } else {
       echo "<br>Database not found";

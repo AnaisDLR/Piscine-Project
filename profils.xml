@@ -32,6 +32,62 @@
                 <date>2063-01-25</date>
             </formation>
         </formations>
-        <projets><projet ><intitulé>1</intitulé><durée>Les Misérables</durée><fonction>Victor Hugo</fonction><lien>1</lien><description>1</description></projet><projet ><intitulé>2</intitulé><durée>Hamlet William</durée><fonction>Shakespeare</fonction><lien>1</lien><description>1</description></projet><projet ><intitulé>3</intitulé><durée>Don Quixote</durée><fonction>Miguel de Cervantes</fonction><lien>1</lien><description>1</description></projet><projet ><intitulé>4</intitulé><durée>Anna Karenina</durée><fonction>Leo Tolstoy</fonction><lien>1</lien><description>1</description></projet><projet ><intitulé>5</intitulé><durée>Moby Dick</durée><fonction>1</fonction><lien>1</lien><description>Herman Melville</description></projet></projets>
+        <projets>
+            <projet>
+                <intitulé>1</intitulé>
+                <durée>Les Misérables</durée>
+                <fonction>Victor Hugo</fonction>
+                <lien>1</lien>
+                <description>1</description>
+            </projet>
+            <projet>
+                <intitulé>2</intitulé>
+                <durée>Hamlet William</durée>
+                <fonction>Shakespeare</fonction>
+                <lien>1</lien>
+                <description>1</description>
+            </projet>
+            <projet>
+                <intitulé>3</intitulé>
+                <durée>Don Quixote</durée>
+                <fonction>Miguel de Cervantes</fonction>
+                <lien>1</lien>
+                <description>1</description>
+            </projet>
+            <projet>
+                <intitulé>4</intitulé>
+                <durée>Anna Karenina</durée>
+                <fonction>Leo Tolstoy</fonction>
+                <lien>1</lien>
+                <description>1</description>
+            </projet>
+            <projet>
+                <intitulé>5</intitulé>
+                <durée>Moby Dick</durée>
+                <fonction>1</fonction>
+                <lien>1</lien>
+                <description>Herman Melville</description>
+            </projet>
+        </projets>
+    </utilisateur>
+    <utilisateur id="2">
+        <formations><formation><intitulé>ok</intitulé><durée>ok</durée><compétence>okk</compétence><date>ok</date></formation></formations>
+        <projets><projet ><intitulé>gg</intitulé><durée>gg</durée><fonction>gg</fonction><lien>ggg</lien><description>gggg</description></projet></projets>
+    </utilisateur>
+    <utilisateur id="3">
+        <formations/>
+        <projets/>
+    </utilisateur>
+    <utilisateur id="4">
+        <formations/>
+        <projets/>
+    </utilisateur>
+    <utilisateur id="5">
+        <formations/>
+        <projets/>
+    </utilisateur>
+    <utilisateur id="6">
+        <formations/>
+        <projets/>
     </utilisateur>
 </profils>

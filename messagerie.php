@@ -79,7 +79,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
 
     //on recharge la page pour bloquer la double soumission du formulaire
-    echo "<script>document.location.replace('admin.php');</script>";
+    echo "<script>document.location.replace('messagerie.php');</script>";
   }
 }
 
@@ -230,9 +230,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
   </div>
   <div style="height:2%"></div>
   <!-- Pied de page -->
-  <footer class="text-center text-lg-start bg-dark text-muted" id="footer">
-        Copyright &copy; 2023 ECE PARIS
-    </footer>
+  <footer class="text-center text-lg-start bg-dark text-muted" id="footer" style="1.5em">
+    Copyright &copy; 2023 ECE PARIS
+  </footer>
 </body>
 
 <?php

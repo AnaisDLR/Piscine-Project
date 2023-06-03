@@ -9,6 +9,10 @@ if (!isset($_SESSION["userID"]) || empty($_SESSION["userID"]) || $_SESSION["user
 }
 $userID = $_SESSION["userID"];
 
+$sql = "SELECT * FROM utilisateur WHERE ID=$userID";
+$result = mysqli_query($db_handle, $sql);
+$selfdata = mysqli_fetch_assoc($result);
+
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
   $correct = 1;
@@ -113,6 +117,25 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         VALUES ('$pseudo', '$nom', '$email', '$mdp', $admin, '$PDP', '$ban');";
     $result = mysqli_query($db_handle, $sql);
 
+
+    $fp = fopen("profils.xml", "r");
+
+    $contents = '';
+
+    while (!feof($fp)) {
+      $contents .= fread($fp, 8192);
+    }
+
+    fclose($fp);
+    $fp = fopen("profils.xml", "w");
+
+    $lastID = mysqli_insert_id($db_handle);
+    for ($i = 0; $i < strlen($contents) - ($contents[strlen($contents) - 11] == ">" ? 10 : 11); $i++)
+      fwrite($fp, $contents[$i]);
+    fwrite($fp, "<utilisateur id='$lastID'><formations></formations><projets></projets></utilisateur></profils>");
+
+    fclose($fp);
+
     //on recharge la page pour bloquer la double soumission du formulaire
     echo "<script>document.location.replace('admin.php');</script>";
   }
@@ -180,7 +203,13 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 <body>
   <div class="navbar navbar-expand-sm bg-dark" style="height: 12%">
     <a class="navbar-brand"><img src="img/ecein.png" width=20% height=20%></a>
-    <h1 style="color:white">Administration / gestion des utilisateurs</h1>
+    <h1 style="color:white; flex:1;">Administration / gestion des utilisateurs</h1>
+    <div style="border: 1px black;">
+      <span style="color: #8A8C8F;">
+        <?= $selfdata["Pseudo"] ?>
+      </span>
+      <a class="nav-link" href="index.php" style="color:white; padding: 0rem 1rem; font-size: 0.8em;">Déconnexion</a>
+    </div>
   </div>
   <div class="row" align="center" style="margin:0; height: 88%;">
     <div class="col-sm-4" style=" height:max-content;">
