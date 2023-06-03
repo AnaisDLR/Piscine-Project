@@ -154,7 +154,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 <body onload="init(<?= $userID ?>)"
   style="display:flex; flex-direction: column; background-image:url(<?= $selfdata['Banniere'] ?>); background-size: cover;">
   <!-- Barre navigation -->
-  <nav class="navbar navbar-expand-sm bg-dark justify-content-center">
+  <nav class="navbar navbar-expand-sm bg-dark justify-content-center; height:3.9em">
     <!-- .bg-primary, .bg-success, .bg-info, .bg-warning, .bg-danger, .bg-secondary, .bg-dark and .bg-light -->
     <a class="navbar-brand"><img src="img/ecein.png" width=20% height=20%></a>
     <button class="navbar-toggler navbar-dark" type="button" data-toggle="collapse" data-target="#main-navigation">
@@ -162,12 +162,12 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     </button>
     <div class="collapse navbar-collapse" id="main-navigation">
       <ul class="navbar-nav">
-                <li class="nav-item"><a class="nav-link" href="accueil.php" style="color:white">Accueil</a></li>
-                <li class="nav-item"><a class="nav-link" href="reseau.php" style="color:white">Réseau</a></li>
-                <li class="nav-item"><a class="nav-link" href="emplois.php" style="color:white">Offres d'emploi</a></li>
-                <li class="nav-item"><a class="nav-link" href="messagerie.php" style="color:white">Messagerie</a></li>
-                <li class="nav-item"><a class="nav-link" href="notifications.php" style="color:white">Notifications</a></li>
-                <li class="nav-item"><a class="nav-link" href="vous.php" style="color:white">Vous</a></li>
+        <li class="nav-item"><a class="nav-link" href="accueil.php" style="color:white">Accueil</a></li>
+        <li class="nav-item"><a class="nav-link" href="reseau.php" style="color:white">Réseau</a></li>
+        <li class="nav-item"><a class="nav-link" href="emplois.php" style="color:white">Offres d'emploi</a></li>
+        <li class="nav-item"><a class="nav-link" href="messagerie.php" style="color:white">Messagerie</a></li>
+        <li class="nav-item"><a class="nav-link" href="#" style="color:white">Notifications</a></li>
+        <li class="nav-item"><a class="nav-link" href="vous.php" style="color:white">Vous</a></li>
       </ul>
     </div>
     <div style="border: 1px black;">
@@ -178,7 +178,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     </div>
   </nav>
   <div style="height:4%"></div>
-  <div class="row" align="center" style="margin:0; flex: 1;">
+  <div class="row" align="center" style="margin:0; height: calc(100% - 3.9em - 1.5em - 6%);">
     <div class="col-sm-3" style=" height:100%;">
       <div class="card" style=" height:100%;">
         <div class="card-header" style="text-align: left; display: flex; flex-wrap: wrap-reverse;">
@@ -230,7 +230,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
   </div>
   <div style="height:2%"></div>
   <!-- Pied de page -->
-  <footer class="text-center text-lg-start bg-dark text-muted" id="footer">
+  <footer class="text-center text-lg-start bg-dark text-muted; height:1.5em" id="footer">
     Copyright &copy; 2023 ECE PARIS
   </footer>
 </body>
