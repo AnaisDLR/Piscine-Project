@@ -14,6 +14,11 @@ if (!isset($_SESSION["userID"]) || empty($_SESSION["userID"])) {
 }
 $userID = $_SESSION["userID"];
 
+$userID = $_SESSION["userID"];
+$sqls = "SELECT * FROM utilisateur WHERE ID=$userID";
+$selfresult = mysqli_query($db_handle, $sqls);
+$selfdata = mysqli_fetch_assoc($selfresult);
+
 //on récupère l'ID de l'ami 
 if ($_SERVER['REQUEST_METHOD'] != 'GET')
     die("erreur IDami");
@@ -94,9 +99,15 @@ $data = mysqli_fetch_assoc($result);
                 <li class="nav-item"><a class="nav-link" href="reseau.php" style="color:white">Réseau</a></li>
                 <li class="nav-item"><a class="nav-link" href="emplois.php" style="color:white">Offres d'emploi</a></li>
                 <li class="nav-item"><a class="nav-link" href="messagerie.php" style="color:white">Messagerie</a></li>
-                <li class="nav-item"><a class="nav-link" href="#" style="color:white">Notifications</a></li>
-                <li class="nav-item"><a class="nav-link" href="vous.html" style="color:white">Vous</a></li>
+                <li class="nav-item"><a class="nav-link" href="notifications.php" style="color:white">Notifications</a></li>
+                <li class="nav-item"><a class="nav-link" href="vous.php" style="color:white">Vous</a></li>
             </ul>
+        </div>
+        <div style="border: 1px black;">
+            <span style="color: #8A8C8F;">
+                <?= $selfdata["Pseudo"] ?>
+            </span>
+            <a class="nav-link" href="index.php" style="color:white; padding: 0rem 1rem; font-size: 0.8em;">Déconnexion</a>
         </div>
     </nav>
     <!-- Contenu -->

@@ -230,9 +230,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
   </div>
   <div style="height:2%"></div>
   <!-- Pied de page -->
-  <footer class="text-center text-lg-start bg-dark text-muted; height:1.5em" id="footer">
-    Copyright &copy; 2023 ECE PARIS
-  </footer>
+  <footer class="text-center text-lg-start bg-dark text-muted" id="footer">
+        Copyright &copy; 2023 ECE PARIS
+    </footer>
 </body>
 
 <?php

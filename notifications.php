@@ -56,8 +56,7 @@ $selfdata = mysqli_fetch_assoc($result);
             <span style="color: #8A8C8F;">
                 <?= $selfdata["Pseudo"] ?>
             </span>
-            <li class="nav-item"><a class="nav-link" href="index.php"
-                    style="color:white; padding: 0rem 1rem; font-size: 0.8em;">Déconnexion</a></li>
+            <a class="nav-link" href="index.php" style="color:white; padding: 0rem 1rem; font-size: 0.8em;">Déconnexion</a>
         </div>
     </nav>
 
