@@ -110,7 +110,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         <li class="nav-item"><a class="nav-link" href="reseau.php" style="color:white">Réseau</a></li>
         <li class="nav-item"><a class="nav-link" href="emplois.php" style="color:white">Offres d'emploi</a></li>
         <li class="nav-item"><a class="nav-link" href="messagerie.php" style="color:white">Messagerie</a></li>
-        <li class="nav-item"><a class="nav-link" href="#" style="color:white">Notifications</a></li>
+        <li class="nav-item"><a class="nav-link" href="notifications.php" style="color:white">Notifications</a></li>
         <li class="nav-item"><a class="nav-link" href="vous.php" style="color:white">Vous</a></li>
       </ul>
     </div>
