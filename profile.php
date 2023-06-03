@@ -62,6 +62,12 @@ $data = mysqli_fetch_assoc($result);
     }
     
     </style>
+    <script>
+        function addFriend(id, nom) {
+            alert( nom + " a été(e) ajouté(e) comme ami(e)");
+        }
+    </script>    
+
 </head>
 
 <body>
@@ -217,7 +223,7 @@ $data = mysqli_fetch_assoc($result);
                                     while ($data = mysqli_fetch_assoc($resulta)){
                                         $PDP = $data['PDP'];
                                         echo "<tr class=\"ami-profil\">";
-                                        echo "<td class=\"details\" style='width:20%'> <img src='$PDP' class=\"image\" onclick=\"addFriend('".$data['Nom']."')\" width=100% height=auto>" . "</td>";                                    echo "<td>";
+                                        echo "<td class=\"details\" style='width:20%'> <img src='$PDP' class=\"image\" onclick=\"addFriend($data['ID'] . ", " . $data['Nom'])\" width=100% height=auto>" . "</td>";                                    echo "<td>";
                                             echo "<h5><strong>" . $data['Nom']. "</strong></h5>";
                                             echo "<p>" . $data['Emploi'] . "</p>";
                                         echo "</td>";
@@ -233,14 +239,20 @@ $data = mysqli_fetch_assoc($result);
         </div>
 
         <script>
-        function addFriend(nom) {
-            <?php
-            $bdd = "ECE_In";
-            $bdd->query('INSERT INTO `ami`(`ID_user1`, `ID_user2`) VALUES ('$userID','$data['ID']')'); 
-            ?>
-            alert(nom + " a été(e) ajouté(e) comme ami(e)");
+            
+        var xhttp = new XMLHttpRequest();
+
+        //pour recevoir la réponse
+        xhttp.onreadystatechange = function () {
+        if (this.readyState == 4 && this.status == 200) {
+            alert(this.response);
         }
-        </script>    
+        };
+
+        //on envoie la demande avec une variable
+        xhttp.open("GET", "suppr_post.php?id=" + post.id, true);
+        xhttp.send();
+
 
         <div class="col-sm-1"></div>
         <div class="col-sm-1"></div>
