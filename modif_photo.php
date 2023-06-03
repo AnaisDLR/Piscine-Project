@@ -49,9 +49,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
       $photo = "img/$newname.$extension";
 
       if ($PDP)
-        $sql = "UPDATE utilisateur SET PDP = '$photo' WHERE $userID";
+        $sql = "UPDATE utilisateur SET PDP = '$photo' WHERE ID=$userID";
       else
-        $sql = "UPDATE utilisateur SET Banniere = '$photo' WHERE $userID";
+        $sql = "UPDATE utilisateur SET Banniere = '$photo' WHERE ID=$userID";
       $result = mysqli_query($db_handle, $sql);
     }
 
