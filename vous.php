@@ -52,12 +52,12 @@ $selfdata = mysqli_fetch_assoc($result);
     </button>
     <div class="collapse navbar-collapse" id="main-navigation">
       <ul class="navbar-nav">
-        <li class="nav-item"><a class="nav-link" href="accueil.php" style="color:white">Accueil</a></li>
-        <li class="nav-item"><a class="nav-link" href="reseau.php" style="color:white">Réseau</a></li>
-        <li class="nav-item"><a class="nav-link" href="emplois.php" style="color:white">Offres d'emploi</a></li>
-        <li class="nav-item"><a class="nav-link" href="messagerie.php" style="color:white">Messagerie</a></li>
-        <li class="nav-item"><a class="nav-link" href="#" style="color:white">Notifications</a></li>
-        <li class="nav-item"><a class="nav-link" href="vous.php" style="color:white">Vous</a></li>
+                <li class="nav-item"><a class="nav-link" href="accueil.php" style="color:white">Accueil</a></li>
+                <li class="nav-item"><a class="nav-link" href="reseau.php" style="color:white">Réseau</a></li>
+                <li class="nav-item"><a class="nav-link" href="emplois.php" style="color:white">Offres d'emploi</a></li>
+                <li class="nav-item"><a class="nav-link" href="messagerie.php" style="color:white">Messagerie</a></li>
+                <li class="nav-item"><a class="nav-link" href="notifications.php" style="color:white">Notifications</a></li>
+                <li class="nav-item"><a class="nav-link" href="vous.php" style="color:white">Vous</a></li>
       </ul>
     </div>
     <div style="border: 1px black;">
