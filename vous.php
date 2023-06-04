@@ -196,7 +196,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
   <link rel="stylesheet" href="vous.css">
 
-
+  <script src="accueil.js"></script>
   <script src="vous.js"></script>
   <style>
     input {
