@@ -3,8 +3,8 @@ include("BDDconnexion.php");
 
 if ($_SERVER['REQUEST_METHOD'] == 'GET') {
 
-  if (isset($_GET['userID']) && !empty($_GET["userID"])) {
-    $userID = (int) strip_tags($_GET['userID']);
+  if (isset($_GET['id'])) {
+    $id = (int) strip_tags($_GET['id']);
     ?>
 
 
@@ -14,10 +14,16 @@ if ($_SERVER['REQUEST_METHOD'] == 'GET') {
           <td>Texte :</td>
           <td><input type='text' name='texte'></td>
         </tr>
-        <tr>
-          <td>Photo :</td>
-          <td><input type='file' name='photo' accept='image/png, image/jpeg'></td>
-        </tr>
+        <?php
+        if (!$id) {
+          ?>
+          <tr>
+            <td>Photo :</td>
+            <td><input type='file' name='photo' accept='image/png, image/jpeg'></td>
+          </tr>
+          <?php
+        }
+        ?>
         <tr>
           <td>Visibilité :</td>
           <td>
@@ -26,9 +32,10 @@ if ($_SERVER['REQUEST_METHOD'] == 'GET') {
               <option value="1">Amis seulement</option>
             </select>
           </td>
-          <tr>
+        </tr>
+        <tr>
+          <td><input type='hidden' name='comment' value='<?= $id ?>'></td>
           <td><input type='hidden' name='none' value='mon_post'></td>
-          </tr>
         </tr>
       </table>
       <br>

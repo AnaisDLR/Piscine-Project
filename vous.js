@@ -12,7 +12,7 @@ function newpost() {
     }
   };
 
-  xhttp.open("GET", "accueil_post-form.php?userID=" + userID, true);
+  xhttp.open("GET", "accueil_post-form.php?userID=" + 0, true);
   xhttp.send();
 }
 
