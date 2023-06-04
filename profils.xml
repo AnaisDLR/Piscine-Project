@@ -1,79 +1,97 @@
-<?xml version='1.0' encoding='UTF-8'?><profils>
+<?xml version='1.0' encoding='UTF-8'?>
+<profils>
     <utilisateur id="1">
         <formations>
             <formation>
-                <intitulé>1</intitulé>
-                <durée>Les Misérables</durée>
-                <compétence>Victor Hugo</compétence>
+                <intitulé>Intitulé 1</intitulé>
+                <durée>Durée 1</durée>
+                <compétence>Compétences 1</compétence>
                 <date>1907-12-16</date>
             </formation>
             <formation>
-                <intitulé>2</intitulé>
-                <durée>Hamlet</durée>
-                <compétence>William Shakespeare</compétence>
+                <intitulé>Intitulé 2</intitulé>
+                <durée>Durée 2</durée>
+                <compétence>Compétences 2</compétence>
                 <date>2085-01-01</date>
             </formation>
             <formation>
-                <intitulé>3</intitulé>
-                <durée>Don Quixote</durée>
-                <compétence>Miguel de Cervantes</compétence>
+                <intitulé>Intitulé 3</intitulé>
+                <durée>Durée 3</durée>
+                <compétence>Compétences 3</compétence>
                 <date>2057-01-24</date>
             </formation>
             <formation>
-                <intitulé>4</intitulé>
-                <durée>Anna Karenina</durée>
-                <compétence>Leo Tolstoy</compétence>
+                <intitulé>Intitulé 4</intitulé>
+                <durée>Durée 4</durée>
+                <compétence>Compétences 4</compétence>
                 <date>2089-10-13</date>
             </formation>
             <formation>
-                <intitulé>5</intitulé>
-                <durée>Moby Dick</durée>
-                <compétence>Herman Melville</compétence>
+                <intitulé>Intitulé 5</intitulé>
+                <durée>Durée 5</durée>
+                <compétence>Compétences 5</compétence>
                 <date>2063-01-25</date>
             </formation>
         </formations>
         <projets>
             <projet>
-                <intitulé>1</intitulé>
-                <durée>Les Misérables</durée>
-                <fonction>Victor Hugo</fonction>
-                <lien>1</lien>
-                <description>1</description>
+                <intitulé>Intitulé 1</intitulé>
+                <durée>Durée 1</durée>
+                <fonction>Rôle 1</fonction>
+                <lien>Lien 1</lien>
+                <description>Description 1</description>
             </projet>
             <projet>
-                <intitulé>2</intitulé>
-                <durée>Hamlet William</durée>
-                <fonction>Shakespeare</fonction>
-                <lien>1</lien>
-                <description>1</description>
+                <intitulé>Intitulé 2</intitulé>
+                <durée>Durée 2</durée>
+                <fonction>Rôle 2</fonction>
+                <lien>Lien 2</lien>
+                <description>Description 2</description>
             </projet>
             <projet>
-                <intitulé>3</intitulé>
-                <durée>Don Quixote</durée>
-                <fonction>Miguel de Cervantes</fonction>
-                <lien>1</lien>
-                <description>1</description>
+                <intitulé>Intitulé 3</intitulé>
+                <durée>Durée 3</durée>
+                <fonction>Rôle 3</fonction>
+                <lien>Lien 3</lien>
+                <description>Description 3</description>
             </projet>
             <projet>
-                <intitulé>4</intitulé>
-                <durée>Anna Karenina</durée>
-                <fonction>Leo Tolstoy</fonction>
-                <lien>1</lien>
-                <description>1</description>
+                <intitulé>Intitulé 4</intitulé>
+                <durée>Durée 4</durée>
+                <fonction>Rôle 4</fonction>
+                <lien>Lien 4</lien>
+                <description>Description 4</description>
             </projet>
             <projet>
-                <intitulé>5</intitulé>
-                <durée>Moby Dick</durée>
-                <fonction>1</fonction>
-                <lien>1</lien>
-                <description>Herman Melville</description>
+                <intitulé>Intitulé 5</intitulé>
+                <durée>Durée 5</durée>
+                <fonction>Rôle 5</fonction>
+                <lien>Lien 5</lien>
+                <description>Description 5</description>
             </projet>
         </projets>
     </utilisateur>
+
     <utilisateur id="2">
-        <formations><formation><intitulé>ok</intitulé><durée>ok</durée><compétence>okk</compétence><date>ok</date></formation></formations>
-        <projets><projet ><intitulé>gg</intitulé><durée>gg</durée><fonction>gg</fonction><lien>ggg</lien><description>gggg</description></projet></projets>
+        <formations>
+            <formation>
+                <intitulé>Intitulé 1</intitulé>
+                <durée>Durée 1</durée>
+                <compétence>...</compétence>
+                <date>...</date>
+            </formation>
+        </formations>
+        <projets>
+            <projet>
+                <intitulé>Intitulé 2</intitulé>
+                <durée>Durée 2</durée>
+                <fonction>...</fonction>
+                <lien>...</lien>
+                <description>...</description>
+            </projet>
+        </projets>
     </utilisateur>
+
     <utilisateur id="3">
         <formations/>
         <projets/>
