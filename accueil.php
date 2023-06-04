@@ -236,39 +236,79 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         <div class="card-header">
           <h4>Evènements de la semaine</h4>
         </div>
-        <div class="card-body">
-          <!-- Tableau des joueurs à afficher ici -->
+        <div id="demo" class="card-body carousel slide" data-ride="carousel">
           <?php
-          include("BDDconnexion.php");
-          $sql = "SELECT autor.Pseudo, event.* 
-                            FROM event, utilisateur as autor 
-                            WHERE event.auteur=autor.ID 
-                            AND (autor.Nom='ECE' OR autor.Nom='Omnes Education');";
+          $sql = "SELECT COUNT(event.ID) as nb FROM event, utilisateur as autor 
+              WHERE event.auteur=autor.ID 
+              AND (autor.Nom='ECE' OR autor.Nom='Omnes Education');";
 
           $result = mysqli_query($db_handle, $sql);
-          while ($data = mysqli_fetch_assoc($result)) {
+          $data = mysqli_fetch_assoc($result);
+          $nbevent = $data["nb"];
+          if ($nbevent) {
+            ?>
+            <!-- Indicateurs -->
+            <ul class="carousel-indicators">
+              <?php
+              for ($i = 0; $i < $nbevent; $i++) {
+                if (!$i)
+                  echo "<li data-target='#demo' data-slide-to='0' class='active' style='background-color: black;'></li>";
+                else
+                  echo "<li data-target='#demo' data-slide-to='$i' style='background-color: black;'></li>";
+              }
+              ?>
+            </ul>
 
-            echo "<div class='row size mt-0 '>";
+            <div class="carousel-inner">
+              <!-- Tableau des joueurs à afficher ici -->
+              <?php
+              include("BDDconnexion.php");
+              $sql = "SELECT autor.Pseudo, event.* 
+                FROM event, utilisateur as autor 
+                WHERE event.auteur=autor.ID 
+                AND (autor.Nom='ECE' OR autor.Nom='Omnes Education');";
 
-            if ($data['photo'] == "")
-              $data['photo'] = "img/event.png";
-            echo "<div class='card col-sm-12'>";
-            echo "<img class='card-img-top' id='imgg' src='" . $data['photo'] . "'>";
-            echo "<div class='card-body'>";
-            if ($data['Pseudo'] == 'ECE')
-              echo "<h6 class='card-text' style='color: rgb(60, 0, 255);'>Nouvelle évènement de l'école disponible</h6>";
-            else if ($data['Pseudo'] == 'Omnes Education')
-              echo "<h6 class='card-text' style='color: rgb(211, 0, 255);'>Nouvelle évènement d'un partenaire de l'école disponible</h6>";
-            echo "<p class='card-text'><small class='text-muted'>" . $data['Pseudo'] . " vous invite a un évènement !</small></p>";
-            echo "<p class='card-text'>" . $data['texte'] . "</p>";
-            echo "<p style='text-decoration: underline;'>&#9201; Date : " . $data['date'] . "</p>";
-            echo "<p style='text-decoration: underline;' class='card-text'>&#128205;" . $data['lieu'] . "</p>";
+              $first = 1;
+              $result = mysqli_query($db_handle, $sql);
+              while ($data = mysqli_fetch_assoc($result)) {
 
-            echo "<a href='#' class='btn btn-primary'>Je participe</a>";
-            echo "</div></div></div>";
+                echo "<div class='row size mt-0 carousel-item" . ($first ? " active" : "") . "' style='margin: auto;'>";
+                $first = 0;
+
+                if ($data['photo'] == "")
+                  $data['photo'] = "img/event.png";
+                echo "<div class='card col-sm-12'>";
+                echo "<img class='card-img-top' id='imgg' src='" . $data['photo'] . "'>";
+                echo "<div class='card-body'>";
+                if ($data['Pseudo'] == 'ECE')
+                  echo "<h6 class='card-text' style='color: rgb(60, 0, 255);'>Nouvelle évènement de l'école disponible</h6>";
+                else if ($data['Pseudo'] == 'Omnes Education')
+                  echo "<h6 class='card-text' style='color: rgb(211, 0, 255);'>Nouvelle évènement d'un partenaire de l'école disponible</h6>";
+                echo "<p class='card-text'><small class='text-muted'>" . $data['Pseudo'] . " vous invite a un évènement !</small></p>";
+                echo "<p class='card-text'>" . $data['texte'] . "</p>";
+                echo "<p style='text-decoration: underline;'>&#9201; Date : " . $data['date'] . "</p>";
+                echo "<p style='text-decoration: underline;' class='card-text'>&#128205;" . $data['lieu'] . "</p>";
+
+                echo "<a href='#' class='btn btn-primary'>Je participe</a>";
+                echo "</div></div></div>";
+              }
+              ?>
+
+            </div>
+            <!-- Contrôles -->
+            <a class="carousel-control-prev" href="#demo" role="button" data-slide="prev"
+              style="background-color: #ececec; width: 8%;">
+              <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+              <span class="sr-only">Précédent</span>
+            </a>
+            <a class="carousel-control-next" href="#demo" role="button" data-slide="next"
+              style="background-color: #ececec; width: 8%;">
+              <span class="carousel-control-next-icon" aria-hidden="true"></span>
+              <span class="sr-only">Suivant</span>
+            </a>
+            <?php
           }
           ?>
-
         </div>
       </div>
       <br>
