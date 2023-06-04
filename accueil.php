@@ -211,11 +211,11 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 <?= $data["like"] ?>
               </span>&#128077
               <button type="button" style="background-color: transparent; border: none; flex: 1;"
-                onclick="liker(this)">j'aime</button>
+                onclick="liker(this)">J'aime</button>
               <button type="button" style="background-color: transparent; border: none; flex: 1;"
-                onclick="commenter(this)">commenter</button>
+                onclick="commenter(this)">Commenter</button>
               <button type="button" style="background-color: transparent; border: none; flex: 1;"
-                onclick="republier(this)">republier</button>
+                onclick="republier(this)">Republier</button>
             </div>
             <?php
             echo "</div>";

@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Hôte : 127.0.0.1:3306
--- Généré le : sam. 03 juin 2023 à 15:07
+-- Généré le : dim. 04 juin 2023 à 21:12
 -- Version du serveur : 8.0.31
 -- Version de PHP : 8.0.26
 
@@ -144,7 +144,7 @@ CREATE TABLE IF NOT EXISTS `event` (
   `type` int NOT NULL DEFAULT '0',
   PRIMARY KEY (`ID`),
   UNIQUE KEY `ID` (`ID`)
-) ENGINE=MyISAM AUTO_INCREMENT=6 DEFAULT CHARSET=latin1;
+) ENGINE=MyISAM AUTO_INCREMENT=15 DEFAULT CHARSET=latin1;
 
 --
 -- Déchargement des données de la table `event`
@@ -174,7 +174,7 @@ CREATE TABLE IF NOT EXISTS `message` (
   PRIMARY KEY (`ID`),
   KEY `Message_fk0` (`discussion`),
   KEY `Message_fk1` (`auteur`)
-) ENGINE=MyISAM AUTO_INCREMENT=20 DEFAULT CHARSET=latin1;
+) ENGINE=MyISAM AUTO_INCREMENT=21 DEFAULT CHARSET=latin1;
 
 --
 -- Déchargement des données de la table `message`
@@ -199,7 +199,8 @@ INSERT INTO `message` (`ID`, `texte`, `photo`, `discussion`, `auteur`, `date`) V
 (16, '', 'img/8bfc73308768eb12cbb06b1f26496ae8.png', 4, 1, '2023-06-01 13:27:31'),
 (17, 'logo', 'img/1090389c4ed0d4210796bec5e62034e8.png', 4, 1, '2023-06-01 13:28:37'),
 (18, 'logo', 'img/f4a5e850edb41509156cd1fbd3bffc2e.png', 4, 1, '2023-06-01 13:29:24'),
-(19, 'az', NULL, 1, 2, '2023-06-01 15:31:09');
+(19, 'az', NULL, 1, 2, '2023-06-01 15:31:09'),
+(20, 'tatatatatata1111', 'img/0fc67f12852f4fd6236cb26e8c7b2ee5.jpg', 4, 1, '2023-06-04 20:33:32');
 
 -- --------------------------------------------------------
 
@@ -243,7 +244,15 @@ CREATE TABLE IF NOT EXISTS `post` (
   UNIQUE KEY `ID` (`ID`),
   KEY `Post_fk0` (`comment`),
   KEY `Post_fk1` (`auteur`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+) ENGINE=MyISAM AUTO_INCREMENT=10 DEFAULT CHARSET=latin1;
+
+--
+-- Déchargement des données de la table `post`
+--
+
+INSERT INTO `post` (`ID`, `texte`, `photo`, `like`, `publique`, `comment`, `auteur`, `date`) VALUES
+(9, 'mon poste !', NULL, 0, 2, NULL, 1, '2023-06-04 21:10:56'),
+(8, 'ma photo :', 'img/87db906a673ee308418aa294ffd4f0fd.jpg', 0, 2, NULL, 1, '2023-06-04 21:09:42');
 
 -- --------------------------------------------------------
 
@@ -266,19 +275,20 @@ CREATE TABLE IF NOT EXISTS `utilisateur` (
   `Last_log` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`ID`),
   UNIQUE KEY `ID` (`ID`)
-) ENGINE=MyISAM AUTO_INCREMENT=40 DEFAULT CHARSET=latin1;
+) ENGINE=MyISAM AUTO_INCREMENT=42 DEFAULT CHARSET=latin1;
 
 --
 -- Déchargement des données de la table `utilisateur`
 --
 
 INSERT INTO `utilisateur` (`ID`, `Pseudo`, `Nom`, `Email`, `MDP`, `Admin`, `PDP`, `Banniere`, `Statut`, `Emploi`, `Last_log`) VALUES
-(1, 'toto', 'toto', 'toto@gmail.fr', '1234', 0, 'img/profile-picture-default.png', 'img/banniere-picture-default.png', NULL, NULL, '2023-06-03 12:03:33'),
-(2, 'tata', 'tata', 'tata@gmail.fr', '0000', 0, 'img/profile-picture-default.png', 'img/banniere-picture-default.png', NULL, NULL, '2023-06-02 13:56:18'),
-(3, 'admin', 'admin', 'admin@gmail.fr', 'admin', 1, 'img/profile-picture-default.png', 'img/banniere-picture-default.png', NULL, NULL, '2023-06-01 16:12:14'),
+(1, 'toto', 'toto', 'toto@gmail.fr', '1234', 0, 'img/profile-picture-default.png', 'img/banniere-picture-default.png', NULL, NULL, '2023-06-04 21:10:49'),
+(2, 'tata', 'tata', 'tata@gmail.fr', '0000', 0, 'img/profile-picture-default.png', 'img/banniere-picture-default.png', NULL, NULL, '2023-06-04 14:31:48'),
+(3, 'admin', 'admin', 'admin@gmail.fr', 'admin', 1, 'img/profile-picture-default.png', 'img/banniere-picture-default.png', NULL, NULL, '2023-06-04 20:34:16'),
 (4, 'amis 34', 'lol', 'ami34@gmail.com', '34', 0, 'img/profile-picture-default.png', 'img/banniere-picture-default.png', NULL, NULL, '2023-05-30 13:18:01'),
-(5, 'ECE', 'ECE', 'ece@gmail.fr', '0000', 1, NULL, NULL, NULL, NULL, '2023-06-02 17:53:49'),
-(6, 'Omnes Education', 'Omnes Education', 'omneseducation@gmail.fr', '0000', 1, NULL, NULL, NULL, NULL, '2023-06-03 13:24:40');
+(5, 'ECE', 'ECE', 'ece@gmail.fr', '0000', 1, 'img/profile-picture-default.png', 'img/banniere-picture-default.png', NULL, NULL, '2023-06-02 17:53:49'),
+(6, 'Omnes Education', 'Omnes Education', 'omneseducation@gmail.fr', '0000', 1, 'img/profile-picture-default.png', 'img/banniere-picture-default.png', NULL, NULL, '2023-06-03 13:24:40'),
+(41, 'a', 'a', 'aaa@gmail.com', 'aaaaa', 0, 'img/profile-picture-default.png', 'img/banniere-picture-default.png', NULL, NULL, '2023-06-04 21:01:01');
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
