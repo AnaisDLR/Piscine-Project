@@ -12,23 +12,22 @@ if ($_SERVER['REQUEST_METHOD'] == 'GET') {
       <table width=100%>
         <tr>
           <td>Texte :</td>
-          <td><input type='text' name='texte'></td>
+          <td><input type='text' name='texte' required></td>
+        </tr>
+        <tr>
+          <td>Date :</td>
+          <td><input type='date' name='date' required></td>
+        </tr>
+        <tr>
+          <td>Lieu :</td>
+          <td><input type='text' name='lieu' required></td>
         </tr>
         <tr>
           <td>Photo :</td>
           <td><input type='file' name='photo' accept='image/png, image/jpeg'></td>
         </tr>
         <tr>
-          <td>Visibilité :</td>
-          <td>
-            <select name="publique" onchange="" required>
-              <option value="2" selected="selected">Tous le Monde</option>
-              <option value="1">Amis seulement</option>
-            </select>
-          </td>
-          <tr>
-          <td><input type='hidden' name='none' value='mon_post'></td>
-          </tr>
+          <td><input type='hidden' name='none' value='mon_event'></td>
         </tr>
       </table>
       <br>

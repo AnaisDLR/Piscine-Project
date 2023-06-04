@@ -13,69 +13,170 @@ $sql = "SELECT * FROM utilisateur WHERE ID=$userID";
 $result = mysqli_query($db_handle, $sql);
 $selfdata = mysqli_fetch_assoc($result);
 
+
+/// Code pour poster un post
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-  $correct = 1;
-  if (!isset($_POST["texte"])) {
-    echo "Erreur Texte<br>";
-    $correct = 0;
-  } else if (empty($_POST["texte"]) && !(isset($_FILES["photo"]) && $_FILES["photo"]["error"] === 0)) {
-    echo "Sélectionner un texte ou une image\n";
-    $correct = 0;
-  }
-  if (!isset($_POST["publique"]) || empty($_POST["publique"])) {
-    echo "Erreur publique<br>";
-    $correct = 0;
-  }
+  if ($_POST['none'] == 'mon_post') {
 
-  if ($correct) {
-    $texte = strip_tags($_POST["texte"]);
-    $publique = (int) strip_tags($_POST["publique"]);
-
-    if (isset($_FILES["photo"]) && $_FILES["photo"]["error"] === 0) {
-      // extension autoriser
-      $allowed = [
-        "png" => "image/png",
-        "jpg" => "image/jpeg",
-        "jpeg" => "image/jpeg"
-      ];
-
-      $filename = $_FILES["photo"]["name"];
-      $filetype = $_FILES["photo"]["type"];
-      $filesize = $_FILES["photo"]["size"];
-      $tmp_name = $_FILES["photo"]["tmp_name"];
-
-      $extension = strtolower(pathinfo($filename, PATHINFO_EXTENSION));
-
-      if (!array_key_exists($extension, $allowed) || !in_array($filetype, $allowed)) {
-        die("Erreur: format de fichier incorrect");
-      }
-
-
-      // on génère un nom unique
-      $newname = md5(uniqid());
-      $newfilename = __DIR__ . "/img/$newname.$extension";
-
-      if (!move_uploaded_file($tmp_name, $newfilename)) {
-        die("Erreur: téléchargement échoué");
-      }
-
-      chmod($newfilename, 0644);
-
-      $photo = "img/$newname.$extension";
-      $sql = "INSERT INTO post (texte, photo, publique, auteur) VALUES ('$texte', '$photo', $publique, $userID);";
-    } else {
-      $sql = "INSERT INTO post (texte, publique, auteur) VALUES ('$texte', $publique, $userID);";
+    $correct = 1;
+    if (!isset($_POST["texte"])) {
+      echo "Erreur Texte<br>";
+      $correct = 0;
+    } else if (empty($_POST["texte"]) && !(isset($_FILES["photo"]) && $_FILES["photo"]["error"] === 0)) {
+      echo "Sélectionner un texte ou une image\n";
+      $correct = 0;
+    }
+    if (!isset($_POST["publique"]) || empty($_POST["publique"])) {
+      echo "Erreur publique<br>";
+      $correct = 0;
     }
 
-    $result = mysqli_query($db_handle, $sql);
+    if ($correct) {
+      $texte = strip_tags($_POST["texte"]);
+      $publique = (int) strip_tags($_POST["publique"]);
 
-    //on recharge la page pour bloquer la double soumission du formulaire
-    echo "<script>document.location.replace('vous.php');</script>";
+      if (isset($_FILES["photo"]) && $_FILES["photo"]["error"] === 0) {
+        // extension autoriser
+        $allowed = [
+          "png" => "image/png",
+          "jpg" => "image/jpeg",
+          "jpeg" => "image/jpeg"
+        ];
+
+        $filename = $_FILES["photo"]["name"];
+        $filetype = $_FILES["photo"]["type"];
+        $filesize = $_FILES["photo"]["size"];
+        $tmp_name = $_FILES["photo"]["tmp_name"];
+
+        $extension = strtolower(pathinfo($filename, PATHINFO_EXTENSION));
+
+        if (!array_key_exists($extension, $allowed) || !in_array($filetype, $allowed)) {
+          die("Erreur: format de fichier incorrect");
+        }
+
+
+        // on génère un nom unique
+        $newname = md5(uniqid());
+        $newfilename = __DIR__ . "/img/$newname.$extension";
+
+        if (!move_uploaded_file($tmp_name, $newfilename)) {
+          die("Erreur: téléchargement échoué");
+        }
+
+        chmod($newfilename, 0644);
+
+        $photo = "img/$newname.$extension";
+        $sql = "INSERT INTO post (texte, photo, publique, auteur) VALUES ('$texte', '$photo', $publique, $userID);";
+      } else {
+        $sql = "INSERT INTO post (texte, publique, auteur) VALUES ('$texte', $publique, $userID);";
+      }
+
+      $result = mysqli_query($db_handle, $sql);
+
+      //on recharge la page pour bloquer la double soumission du formulaire
+      echo "<script>document.location.replace('vous.php');</script>";
+    }
+
+  }
+  else if ($_POST['none'] == 'mon_event') {
+
+    $correct = 1;
+    if (!isset($_POST["texte"]) || empty($_POST["texte"])) {
+      echo "Erreur texte<br>";
+      $correct = 0;    
+    }
+    if (!isset($_POST["date"]) || empty($_POST["date"])) {
+      echo "Erreur date<br>";
+      $correct = 0;    
+    }
+    if (!isset($_POST["lieu"]) || empty($_POST["lieu"])) {
+      echo "Erreur lieu<br>";
+      $correct = 0;    
+    }
+
+    if ($correct) {         //pas d'erreur ?
+      $texte = strip_tags($_POST["texte"]);            //cybersécurité
+      $date = strip_tags($_POST["date"]); 
+      $lieu = strip_tags($_POST["lieu"]); 
+  
+      if (isset($_FILES["photo"]) && $_FILES["photo"]["error"] === 0) {
+        // extension autoriser
+        $allowed = [
+          "png" => "image/png",
+          "jpg" => "image/jpeg",
+          "jpeg" => "image/jpeg"
+        ];
+  
+        $filename = $_FILES["photo"]["name"];
+        $filetype = $_FILES["photo"]["type"];
+        $filesize = $_FILES["photo"]["size"];
+        $tmp_name = $_FILES["photo"]["tmp_name"];
+  
+        $extension = strtolower(pathinfo($filename, PATHINFO_EXTENSION));
+  
+        if (!array_key_exists($extension, $allowed) || !in_array($filetype, $allowed)) {
+          die("Erreur: format de fichier incorrect");
+        }
+  
+  
+        // on génère un nom unique
+        $newname = md5(uniqid());
+        $newfilename = __DIR__ . "/img/$newname.$extension";
+  
+        if (!move_uploaded_file($tmp_name, $newfilename)) {
+          die("Erreur: téléchargement échoué");
+        }
+  
+        chmod($newfilename, 0644);
+  
+        $photo = "img/$newname.$extension";
+        $sql = "INSERT INTO event (texte, nom, photo, date, lieu, auteur) VALUES ('$texte', 'none', '$photo', '$date', '$lieu', $userID);";
+      } else {
+        $sql = "INSERT INTO event (texte, nom, date, lieu, auteur) VALUES ('$texte', 'none', '$date', '$lieu', $userID);";
+      }
+      $result = mysqli_query($db_handle, $sql);
+      $lastID = mysqli_insert_id($db_handle);
+
+      $tableau = [];
+
+      $ami = "SELECT util2.* FROM utilisateur as util1, ami, utilisateur as util2 
+              WHERE ((util1.ID=ami.ID_user1 AND util2.ID=ami.ID_user2) 
+              OR (util1.ID=ami.ID_user2 AND util2.ID=ami.ID_user1)) AND util1.ID=$userID;";
+
+      $result = mysqli_query($db_handle, $ami);
+      
+      while ($data = mysqli_fetch_assoc($result)) {
+        $tableau[] = $data['ID'];
+        $val = $data['ID'];
+        $ami2 = "SELECT util2.* FROM utilisateur as util1, ami, utilisateur as util2 
+        WHERE ((util1.ID=ami.ID_user1 AND util2.ID=ami.ID_user2) 
+        OR (util1.ID=ami.ID_user2 AND util2.ID=ami.ID_user1)) AND util1.ID=$val;";
+
+        $result2 = mysqli_query($db_handle, $ami2);
+
+        while ($data2 = mysqli_fetch_assoc($result2)) {
+          $tableau[] = $data2['ID'];
+        }
+      }
+      $tableau= array_unique($tableau);
+      
+      for($i=0 ; $i < count($tableau) ; $i++) {
+        $val = $tableau[$i];
+        if ($val != $userID) {
+          $sql = "INSERT INTO participation (ID_user,ID_event) VALUES ('$val','$lastID')";
+          $result = mysqli_query($db_handle, $sql);
+        }
+      }
+
+      //on recharge la page pour bloquer la double soumission du formulaire
+      echo "<script>document.location.replace('vous.php');</script>";
+    }
   }
 }
 
-?>
 
+
+?>
 
 
 <!DOCTYPE html>
@@ -98,7 +199,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
   
   <script src="vous.js"></script>
-  <script src="accueil.js"></script>
   <style>
     input {
       width: 100%;
@@ -215,7 +315,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
           <div id="newpostform" class="container">
             <a href="#" class="btn btn-primary btn-lg" role="button" onclick="newpost()">Nouveau post</a>
           </div>
-          <a href="#" class="btn btn-primary btn-lg" role="button">Créer un Evènement</a>
+          <div id="neweventform" class="container">
+            <a href="#" class="btn btn-primary btn-lg" role="button" onclick="newevent()">Créer un Evènement</a>
+          </div>
         </div>
         <div id="listepost" class="card-body">
           <?php
