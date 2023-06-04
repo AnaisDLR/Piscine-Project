@@ -138,6 +138,19 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         </div>
       </div>
       <br>
+      <div class="card">
+      <div class="card-body">
+      <div class="card-footer">
+          <h6>Contactez-nous : </h6>
+          Telephone : <a href="tel:+33.01.53.64.05.24">(+33) 01 53 64 05 24</a><br>
+          Mail : <a href="mailto:admissions-paris@ece.fr">admissions-paris@ece.fr</a><br>
+          Localisation :<br>
+          <iframe
+            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2625.3661096239907!2d2.2859909769205826!3d48.85122870120983!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x47e6701b4f58251b%3A0x167f5a60fb94aa76!2sECE%20-%20Ecole%20d&#39;ing%C3%A9nieurs%20-%20Engineering%20school.!5e0!3m2!1sfr!2sfr!4v1685455110873!5m2!1sfr!2sfr"
+            width=100% height=100% style="border:0; display: block; min-height:200px" allowfullscreen="" loading="lazy"
+            referrerpolicy="no-referrer-when-downgrade"></iframe>
+        </div></div></div>
+      <br>
     </div>
     <div class="col-sm-4" id="section2">
       <br>
@@ -187,16 +200,43 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         <div class="card-header">
           <h4>Evènements de la semaine</h4>
         </div>
-        <div class="card-body">Content</div>
-        <div class="card-footer">
-          <h6>Contactez-nous : </h6>
-          Telephone : <a href="tel:+33.01.53.64.05.24">(+33) 01 53 64 05 24</a><br>
-          Mail : <a href="mailto:admissions-paris@ece.fr">admissions-paris@ece.fr</a><br>
-          Localisation :<br>
-          <iframe
-            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2625.3661096239907!2d2.2859909769205826!3d48.85122870120983!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x47e6701b4f58251b%3A0x167f5a60fb94aa76!2sECE%20-%20Ecole%20d&#39;ing%C3%A9nieurs%20-%20Engineering%20school.!5e0!3m2!1sfr!2sfr!4v1685455110873!5m2!1sfr!2sfr"
-            width=100% height=100% style="border:0; display: block; min-height:200px" allowfullscreen="" loading="lazy"
-            referrerpolicy="no-referrer-when-downgrade"></iframe>
+        <div class="card-body">
+
+                            <!-- Tableau des joueurs à afficher ici -->
+                            <?php
+                            include("BDDconnexion.php");
+                            $sql = "SELECT autor.Pseudo, event.* 
+                            FROM event, utilisateur as autor 
+                            WHERE event.auteur=autor.ID 
+                            AND (autor.Nom='ECE' OR autor.Nom='Omnes Education');";
+
+                            
+                            $result = mysqli_query($db_handle, $sql);
+
+                            while ($data = mysqli_fetch_assoc($result)) {
+                                
+                                echo "<div class='row size mt-0 '>";
+                                
+                                if ($data['photo'] == "")
+                                    $data['photo'] = "img/event.png";
+                                echo "<div class='card col-sm-12'>";
+                                echo "<img class='card-img-top' id='imgg' src='" . $data['photo'] . "'>";
+
+                                echo "<div class='card-body'>";
+                                if ($data['Pseudo'] == 'ECE')                  echo "<h6 class='card-text' style='color: rgb(60, 0, 255);'>Nouvelle évènement de l'école disponible</h6>";
+                                else if ($data['Pseudo'] == 'Omnes Education') echo "<h6 class='card-text' style='color: rgb(211, 0, 255);'>Nouvelle évènement d'un partenaire de l'école disponible</h6>";
+
+                                echo "<p class='card-text'><small class='text-muted'>" . $data['Pseudo'] . " vous invite a un évènement !</small></p>";
+                                echo "<p class='card-text'>" . $data['texte'] . "</p>";
+                                echo "<p style='text-decoration: underline;'>&#9201; Date : " . $data['date'] . "</p>";
+                                echo "<p style='text-decoration: underline;' class='card-text'>&#128205;" . $data['lieu'] . "</p>";
+                                
+                                echo "<a href='#' class='btn btn-primary'>Je participe</a>";
+                                echo "</div></div></div>";
+                            }
+
+                            ?>
+
         </div>
       </div>
       <br>

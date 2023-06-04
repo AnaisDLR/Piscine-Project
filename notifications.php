@@ -81,7 +81,7 @@ $selfdata = mysqli_fetch_assoc($result);
                             AND event.auteur=autor.ID 
                             AND utilisateur.ID=$userID
                             UNION SELECT autor.Pseudo, event.* 
-                            FROM utilisateur, event, utilisateur as autor 
+                            FROM event, utilisateur as autor 
                             WHERE event.auteur=autor.ID 
                             AND (autor.Nom='ECE' OR autor.Nom='Omnes Education');";
 
