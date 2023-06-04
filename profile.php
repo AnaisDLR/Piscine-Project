@@ -12,7 +12,6 @@ if (!isset($_SESSION["userID"]) || empty($_SESSION["userID"])) {
     echo "<script>alert('Connecte toi avant');document.location.replace('index.php');</script>";
     die();
 }
-$userID = $_SESSION["userID"];
 
 $userID = $_SESSION["userID"];
 $sqls = "SELECT * FROM utilisateur WHERE ID=$userID";
@@ -51,6 +50,7 @@ $data = mysqli_fetch_assoc($result);
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"></script>
 
     <link rel="stylesheet" href="vous.css">
+    <script src="profile.js"></script>
     <style>
         .ami-profil {
             display: flex;
@@ -130,107 +130,16 @@ $data = mysqli_fetch_assoc($result);
                     <?= $data['Emploi'] ?>
                 </div>
                 <div class="card-body">
-                    <div class="container">
-                        <table class="table table-striped">
-                            <thead>
-                                <tr>
-                                    <h3>Formations</h3>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <th>Intitulé</th>
-                                    <th>Durée</th>
-                                    <th>Compétences acquises</th>
-                                </tr>
-                            </tbody>
-                            <tbody>
-                                <tr>
-                                    <td>1</td>
-                                    <td>Les Misérables</td>
-                                    <td>Victor Hugo</td>
-                                </tr>
-                                <tr>
-                                    <td>2</td>
-                                    <td>Hamlet</td>
-                                    <td>William Shakespeare</td>
-                                </tr>
-                                <tr>
-                                    <td>3</td>
-                                    <td>Don Quixote</td>
-                                    <td>Miguel de Cervantes</td>
-                                </tr>
-                                <tr>
-                                    <td>4</td>
-                                    <td>Anna Karenina</td>
-                                    <td>Leo Tolstoy</td>
-                                </tr>
-                                <tr>
-                                    <td>5</td>
-                                    <td>Moby Dick</td>
-                                    <td>Herman Melville</td>
-                                </tr>
-                            </tbody>
-                        </table>
+                    <div id="formations" class="container">
+
                     </div>
                 </div>
                 <div class="card-footer">
-                    <div class="container">
-                        <table class="table table-striped">
-                            <thead>
-                                <tr>
-                                    <h3>Projets</h3>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <th>Intitulé</th>
-                                    <th>Durée</th>
-                                    <th>Fonction</th>
-                                    <th>Lien du projet</th>
-                                    <th>Description</th>
-                                </tr>
-                            </tbody>
-                            <tbody>
-                                <tr>
-                                    <td>1</td>
-                                    <td>Les Misérables</td>
-                                    <td>Victor Hugo</td>
-                                    <td>1</td>
-                                    <td>1</td>
-                                </tr>
-                                <tr>
-                                    <td>2</td>
-                                    <td>Hamlet</td>
-                                    <td>William Shakespeare</td>
-                                    <td>1</td>
-                                    <td>1</td>
-                                </tr>
-                                <tr>
-                                    <td>3</td>
-                                    <td>Don Quixote</td>
-                                    <td>Miguel de Cervantes</td>
-                                    <td>1</td>
-                                    <td>1</td>
-                                </tr>
-                                <tr>
-                                    <td>4</td>
-                                    <td>Anna Karenina</td>
-                                    <td>Leo Tolstoy</td>
-                                    <td>1</td>
-                                    <td>1</td>
-                                </tr>
-                                <tr>
-                                    <td>5</td>
-                                    <td>Moby Dick</td>
-                                    <td>1</td>
-                                    <td>1</td>
-                                    <td>Herman Melville</td>
-                                </tr>
-                            </tbody>
-                        </table>
+                    <div id="projets" class="container">
+
                     </div>
                 </div>
+                <script>loadXMLDoc()</script>
             </div>
         </div>
         <div class="col-sm-1"></div>
@@ -270,24 +179,52 @@ $data = mysqli_fetch_assoc($result);
             </div>
             <br>
         </div>
-
-        <script>
-
         <div class="col-sm-1"></div>
         <div class="col-sm-1"></div>
         <div class="col-sm-10" id="section3">
-            <br>
-            <div class="card">
-                <div class="card-header">
-                    <h3>Activité</h3>
-                </div>
-                <div class="card-body">
-                    Content
-                </div>
-            </div>
-            <br>
+        <br>
+        <div class="card">
+        <div class="card-header">
+          <h3>Activité</h3>
         </div>
-        <div class="col-sm-1"></div>
+        <div id="listepost" class="card-body">
+          <?php
+          $sql = "SELECT post.* FROM post, utilisateur as autor 
+            WHERE post.auteur=autor.ID AND autor.ID=$amiID ORDER BY date DESC";
+          $result = mysqli_query($db_handle, $sql);
+          echo "<table style='width:100%;'><tbody>";
+
+          while ($data = mysqli_fetch_assoc($result)) {
+            echo "<tr id='" . $data['ID'] . "' style='border: 1px solid lightgray;'>";
+            echo "<td style='width:20%;'><img src='" . $data['photo'] . "' style='width: 100%;'></td>";
+            echo "<td style='padding: 0.3em;'>";
+            echo "";
+            echo "<span>" . ($data["texte"] ? $data["texte"] : ">aucun texte") . "</span>";
+            echo "<br><br>";
+            echo "<span>" . $data["date"] . "</span>";
+            echo "<br>>";
+            echo "<span>Visible par : ";
+            switch ($data["publique"]) {
+              case 1:
+                echo "amis seulements";
+                break;
+              case 2:
+                echo "tout le monde";
+                break;
+              default:
+                echo $data["publique"];
+            }
+            echo "</span>";
+            echo "<span style='float:right;'>" . $data["like"] . " &#128077</span>";
+            echo "</td></tr>";
+          }
+          echo "</tbody></table>";
+          ?>
+        </div>
+      </div>
+      <br>
+    </div>
+    <div class="col-sm-1"></div>
     </div>
     <footer class="text-center text-lg-start bg-dark text-muted" id="footer">
         Copyright &copy; 2023 ECE PARIS
