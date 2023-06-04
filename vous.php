@@ -13,7 +13,69 @@ $sql = "SELECT * FROM utilisateur WHERE ID=$userID";
 $result = mysqli_query($db_handle, $sql);
 $selfdata = mysqli_fetch_assoc($result);
 
+if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+  $correct = 1;
+  if (!isset($_POST["texte"])) {
+    echo "Erreur Texte<br>";
+    $correct = 0;
+  } else if (empty($_POST["texte"]) && !(isset($_FILES["photo"]) && $_FILES["photo"]["error"] === 0)) {
+    echo "Sélectionner un texte ou une image\n";
+    $correct = 0;
+  }
+  if (!isset($_POST["publique"]) || empty($_POST["publique"])) {
+    echo "Erreur publique<br>";
+    $correct = 0;
+  }
+
+  if ($correct) {
+    $texte = strip_tags($_POST["texte"]);
+    $publique = (int) strip_tags($_POST["publique"]);
+
+    if (isset($_FILES["photo"]) && $_FILES["photo"]["error"] === 0) {
+      // extension autoriser
+      $allowed = [
+        "png" => "image/png",
+        "jpg" => "image/jpeg",
+        "jpeg" => "image/jpeg"
+      ];
+
+      $filename = $_FILES["photo"]["name"];
+      $filetype = $_FILES["photo"]["type"];
+      $filesize = $_FILES["photo"]["size"];
+      $tmp_name = $_FILES["photo"]["tmp_name"];
+
+      $extension = strtolower(pathinfo($filename, PATHINFO_EXTENSION));
+
+      if (!array_key_exists($extension, $allowed) || !in_array($filetype, $allowed)) {
+        die("Erreur: format de fichier incorrect");
+      }
+
+
+      // on génère un nom unique
+      $newname = md5(uniqid());
+      $newfilename = __DIR__ . "/img/$newname.$extension";
+
+      if (!move_uploaded_file($tmp_name, $newfilename)) {
+        die("Erreur: téléchargement échoué");
+      }
+
+      chmod($newfilename, 0644);
+
+      $photo = "img/$newname.$extension";
+      $sql = "INSERT INTO post (texte, photo, publique, auteur) VALUES ('$texte', '$photo', $publique, $userID);";
+    } else {
+      $sql = "INSERT INTO post (texte, publique, auteur) VALUES ('$texte', $publique, $userID);";
+    }
+
+    $result = mysqli_query($db_handle, $sql);
+
+    //on recharge la page pour bloquer la double soumission du formulaire
+    echo "<script>document.location.replace('vous.php');</script>";
+  }
+}
+
 ?>
+
 
 
 <!DOCTYPE html>
@@ -34,7 +96,9 @@ $selfdata = mysqli_fetch_assoc($result);
 
   <link rel="stylesheet" href="vous.css">
 
+  
   <script src="vous.js"></script>
+  <script src="accueil.js"></script>
   <style>
     input {
       width: 100%;
@@ -148,6 +212,10 @@ $selfdata = mysqli_fetch_assoc($result);
       <div class="card">
         <div class="card-header">
           <h3>Activité</h3>
+          <div id="newpostform" class="container">
+            <a href="#" class="btn btn-primary btn-lg" role="button" onclick="newpost()">Nouveau post</a>
+          </div>
+          <a href="#" class="btn btn-primary btn-lg" role="button">Créer un Evènement</a>
         </div>
         <div id="listepost" class="card-body">
           <?php
@@ -171,7 +239,7 @@ $selfdata = mysqli_fetch_assoc($result);
                 echo "amis seulements";
                 break;
               case 2:
-                echo "tous le monde";
+                echo "tout le monde";
                 break;
               default:
                 echo $data["publique"];
