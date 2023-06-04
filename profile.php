@@ -50,7 +50,7 @@ $data = mysqli_fetch_assoc($result);
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"></script>
 
     <link rel="stylesheet" href="vous.css">
-    <script src="profile.js"></script>
+    <script src="vous.js"></script>
     <style>
         .ami-profil {
             display: flex;
@@ -139,7 +139,8 @@ $data = mysqli_fetch_assoc($result);
 
                     </div>
                 </div>
-                <script>loadXMLDoc()</script>
+
+                <script>loadXMLDoc(<?= $amiID ?>)</script>
             </div>
         </div>
         <div class="col-sm-1"></div>
@@ -182,53 +183,53 @@ $data = mysqli_fetch_assoc($result);
         <div class="col-sm-1"></div>
         <div class="col-sm-1"></div>
         <div class="col-sm-10" id="section3">
-        <br>
-        <div class="card">
-        <div class="card-header">
-          <h3>Activité</h3>
-        </div>
-        <div id="listepost" class="card-body">
-          <?php
-          $sql = "SELECT post.* FROM post, utilisateur as autor 
+            <br>
+            <div class="card">
+                <div class="card-header">
+                    <h3>Activité</h3>
+                </div>
+                <div id="listepost" class="card-body">
+                    <?php
+                    $sql = "SELECT post.* FROM post, utilisateur as autor 
             WHERE post.auteur=autor.ID AND autor.ID=$amiID ORDER BY date DESC";
-          $result = mysqli_query($db_handle, $sql);
-          echo "<table style='width:100%;'><tbody>";
+                    $result = mysqli_query($db_handle, $sql);
+                    echo "<table style='width:100%;'><tbody>";
 
-          while ($data = mysqli_fetch_assoc($result)) {
-            echo "<tr id='" . $data['ID'] . "' style='border: 1px solid lightgray;'>";
-            echo "<td style='width:20%;'><img src='" . $data['photo'] . "' style='width: 100%;'></td>";
-            echo "<td style='padding: 0.3em;'>";
-            echo "";
-            echo "<span>" . ($data["texte"] ? $data["texte"] : ">aucun texte") . "</span>";
-            echo "<br><br>";
-            echo "<span>" . $data["date"] . "</span>";
-            echo "<br>>";
-            echo "<span>Visible par : ";
-            switch ($data["publique"]) {
-              case 1:
-                echo "amis seulements";
-                break;
-              case 2:
-                echo "tout le monde";
-                break;
-              default:
-                echo $data["publique"];
-            }
-            echo "</span>";
-            echo "<span style='float:right;'>" . $data["like"] . " &#128077</span>";
-            echo "</td></tr>";
-          }
-          echo "</tbody></table>";
-          ?>
+                    while ($data = mysqli_fetch_assoc($result)) {
+                        echo "<tr id='" . $data['ID'] . "' style='border: 1px solid lightgray;'>";
+                        echo "<td style='width:20%;'><img src='" . $data['photo'] . "' style='width: 100%;'></td>";
+                        echo "<td style='padding: 0.3em;'>";
+                        echo "";
+                        echo "<span>" . ($data["texte"] ? $data["texte"] : ">aucun texte") . "</span>";
+                        echo "<br><br>";
+                        echo "<span>" . $data["date"] . "</span>";
+                        echo "<br>>";
+                        echo "<span>Visible par : ";
+                        switch ($data["publique"]) {
+                            case 1:
+                                echo "amis seulements";
+                                break;
+                            case 2:
+                                echo "tout le monde";
+                                break;
+                            default:
+                                echo $data["publique"];
+                        }
+                        echo "</span>";
+                        echo "<span style='float:right;'>" . $data["like"] . " &#128077</span>";
+                        echo "</td></tr>";
+                    }
+                    echo "</tbody></table>";
+                    ?>
+                </div>
+            </div>
+            <br>
         </div>
-      </div>
-      <br>
-    </div>
-    <div class="col-sm-1"></div>
+        <div class="col-sm-1"></div>
     </div>
     <footer class="text-center text-lg-start bg-dark text-muted" id="footer">
         Copyright &copy; 2023 ECE PARIS
     </footer>
-</body >
+</body>
 
-</html >
+</html>

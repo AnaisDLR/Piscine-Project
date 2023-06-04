@@ -31,7 +31,7 @@ function newevent() {
 }
 
 
-function loadXMLDoc() {
+function loadXMLDoc(userID) {
   var xmlhttp = new XMLHttpRequest();
   xmlhttp.onreadystatechange = function () {
 

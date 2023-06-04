@@ -77,28 +77,27 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
       echo "<script>document.location.replace('vous.php');</script>";
     }
 
-  }
-  else if ($_POST['none'] == 'mon_event') {
+  } else if ($_POST['none'] == 'mon_event') {
 
     $correct = 1;
     if (!isset($_POST["texte"]) || empty($_POST["texte"])) {
       echo "Erreur texte<br>";
-      $correct = 0;    
+      $correct = 0;
     }
     if (!isset($_POST["date"]) || empty($_POST["date"])) {
       echo "Erreur date<br>";
-      $correct = 0;    
+      $correct = 0;
     }
     if (!isset($_POST["lieu"]) || empty($_POST["lieu"])) {
       echo "Erreur lieu<br>";
-      $correct = 0;    
+      $correct = 0;
     }
 
-    if ($correct) {         //pas d'erreur ?
-      $texte = strip_tags($_POST["texte"]);            //cybersécurité
-      $date = strip_tags($_POST["date"]); 
-      $lieu = strip_tags($_POST["lieu"]); 
-  
+    if ($correct) { //pas d'erreur ?
+      $texte = strip_tags($_POST["texte"]); //cybersécurité
+      $date = strip_tags($_POST["date"]);
+      $lieu = strip_tags($_POST["lieu"]);
+
       if (isset($_FILES["photo"]) && $_FILES["photo"]["error"] === 0) {
         // extension autoriser
         $allowed = [
@@ -106,29 +105,29 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
           "jpg" => "image/jpeg",
           "jpeg" => "image/jpeg"
         ];
-  
+
         $filename = $_FILES["photo"]["name"];
         $filetype = $_FILES["photo"]["type"];
         $filesize = $_FILES["photo"]["size"];
         $tmp_name = $_FILES["photo"]["tmp_name"];
-  
+
         $extension = strtolower(pathinfo($filename, PATHINFO_EXTENSION));
-  
+
         if (!array_key_exists($extension, $allowed) || !in_array($filetype, $allowed)) {
           die("Erreur: format de fichier incorrect");
         }
-  
-  
+
+
         // on génère un nom unique
         $newname = md5(uniqid());
         $newfilename = __DIR__ . "/img/$newname.$extension";
-  
+
         if (!move_uploaded_file($tmp_name, $newfilename)) {
           die("Erreur: téléchargement échoué");
         }
-  
+
         chmod($newfilename, 0644);
-  
+
         $photo = "img/$newname.$extension";
         $sql = "INSERT INTO event (texte, nom, photo, date, lieu, auteur) VALUES ('$texte', 'none', '$photo', '$date', '$lieu', $userID);";
       } else {
@@ -144,7 +143,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
               OR (util1.ID=ami.ID_user2 AND util2.ID=ami.ID_user1)) AND util1.ID=$userID;";
 
       $result = mysqli_query($db_handle, $ami);
-      
+
       while ($data = mysqli_fetch_assoc($result)) {
         $tableau[] = $data['ID'];
         $val = $data['ID'];
@@ -158,9 +157,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
           $tableau[] = $data2['ID'];
         }
       }
-      $tableau= array_unique($tableau);
-      
-      for($i=0 ; $i < count($tableau) ; $i++) {
+      $tableau = array_unique($tableau);
+
+      for ($i = 0; $i < count($tableau); $i++) {
         $val = $tableau[$i];
         if ($val != $userID) {
           $sql = "INSERT INTO participation (ID_user,ID_event) VALUES ('$val','$lastID')";
@@ -197,7 +196,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
   <link rel="stylesheet" href="vous.css">
 
-  
+
   <script src="vous.js"></script>
   <style>
     input {
@@ -288,7 +287,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
           </div>
         </div>
 
-        <script>loadXMLDoc()</script>
+        <script>loadXMLDoc(<?= $userID ?>)</script>
 
       </div>
       <br>
